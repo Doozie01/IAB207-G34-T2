@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Expert Relay My Events</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="Static/styles.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+</head>
+
+<!-- Banner and Navigation Bar -->
+<body>
+  <nav class="navbar navbar-expand-md navbar-dark exr-nav sticky-top">
+    <!-- change from container-fluid to container -->
+    <div class="container" style="max-width: 50%;">
+      <!-- Brand -->
+      <a class="navbar-brand" href="index.html">
+        <img src="Static/EXR_logo.png" alt="ExpertRelay logo" height="40">
+      </a>
+
+      <!-- Toggler -->
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#exrNav" aria-controls="exrNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <!-- Nav links + actions -->
+      <div id="exrNav" class="collapse navbar-collapse">
+        <ul class="navbar-nav me-auto">
+          <li class="nav-item"><a class="nav-link" href="index.html"><i class="bi bi-house-fill me-1"></i> Home</a></li>
+          <li class="nav-item"><a class="nav-link" href="create-event.html"><i class="bi bi-plus-circle me-1"></i> Create Event</a></li>
+          <li class="nav-item"><a class="nav-link active" href="bookings.html"><i class="bi bi-ticket-perforated me-1"></i> My Events</a></li>
+        </ul>
+
+        <!-- Actions (right side) -->
+        <div class="d-flex align-items-center">
+          <a href="search.html" class="btn btn-outline-light" aria-label="Search">
+            <i class="bi bi-search"></i>
+          </a>
+          <div class="dropdown ms-2">
+            <button class="btn btn-outline-light dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+              <i class="bi bi-person-circle"></i>
+            </button>
+            <ul class="dropdown-menu dropdown-menu-end">
+              <li><a class="dropdown-item" href="#">Sign in</a></li>
+              <li><a class="dropdown-item" href="#">Create account</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+<!------------------- MAIN PAGE CONTENT ------------------->
+
+<!-- Your Events -->
+<main class="exr-shell mb-4">
+  <h1 class="h4 mb-3">Your events</h1>
+
+  <!-- List of created events -->
+  <div class="list-group">
+    <!-- Event 1 -->
+    <div class="list-group-item py-3">
+      <div class="d-flex align-items-center">
+        <img src="Static/HowToBootstrap.png"
+             alt="AI Risk Briefing cover" style="width:80px;height:56px;object-fit:cover;border-radius:8px" class="me-3">
+        <div class="me-auto">
+          <div class="fw-semibold">How to use Bootstrap for dynamic websites!</div>
+          <div class="text-secondary small">03/09/2025, 9:00 AM • QUT Gardens Point, Brisbane</div>
+        </div>
+        <a href="create-event.html" class="btn btn-primary">Edit</a>
+      </div>
+    </div>
+
+    <!-- Event 2 -->
+    <div class="list-group-item py-3">
+      <div class="d-flex align-items-center">
+        <img src="Static/VideoEditing.jpg"
+             alt="Sustainability Reporting cover" style="width:80px;height:56px;object-fit:cover;border-radius:8px" class="me-3">
+        <div class="me-auto">
+          <div class="fw-semibold">Video Editing 101</div>
+          <div class="text-secondary small">09/09/2025, 1:00 PM • Online</div>
+        </div>
+        <a href="create-event.html" class="btn btn-primary">Edit</a>
+      </div>
+    </div>
+  </div>
+
+  <br>
+<!-- Your Bookings -->
+  <h1 class="h4 mb-3">Your bookings</h1>
+
+  <div class="table-responsive">
+    <table class="table align-middle">
+      <thead>
+        <tr>
+          <th scope="col">Event</th>
+          <th scope="col">Order ID</th>
+          <th scope="col">Booked at</th>
+          <th scope="col" class="text-end">Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Row 1 -->
+        <tr>
+          <td class="d-flex align-items-center gap-2">
+            <img src="Static/MicrobiologyFood.jpg"
+                 alt="Microbiology Food"
+                 style="width:80px;height:56px;object-fit:cover;border-radius:8px">
+            <div>
+              <div>Anti-microbial agents in Australia's Food Testing</div>
+              <div class="text-secondary small">05/09/2025, All Day • MNAQ QLD, Brisbane</div>
+            </div>
+          </td>
+          <td><code>ORD-001234</code></td>
+          <td>02/09/2025, 2:15 PM</td>
+          <td class="text-end">
+            <a href="event.html" class="btn btn-primary me-2">See details</a>
+            <button type="button" class="btn btn-outline-danger">Cancel</button>
+          </td>
+        </tr>
+
+        <!-- Row 2 -->
+        <tr>
+          <td class="d-flex align-items-center gap-2">
+            <img src="Static/CostOfLiving.jpg"
+                 alt="Cost of Living"
+                 style="width:80px;height:56px;object-fit:cover;border-radius:8px">
+            <div>
+              <div>The cost of living crisis and young Aussies</div>
+              <div class="text-secondary small">14/09/2025, 9:00 AM • BCEC, Brisbane</div>
+            </div>
+          </td>
+          <td><code>ORD-001235</code></td>
+          <td>27/08/2025, 9:01 AM</td>
+          <td class="text-end">
+            <a href="event.html" class="btn btn-primary me-2">See details</a>
+            <button type="button" class="btn btn-outline-danger">Cancel</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</main>
+
+
+
+  <!-- Footer -->
+  <footer class="bg-dark text-center text-white-50 mt-auto py-4">
+    <ul class="nav justify-content-center border-bottom pb-3 mb-3">
+      <li class="nav-item"><a href="index.html" class="nav-link px-2 text-white">Home</a></li>
+      <li class="nav-item"><a href="search.html" class="nav-link px-2 text-white">Search</a></li>
+      <li class="nav-item"><a href="create-event.html" class="nav-link px-2 text-white">Create Events</a></li>
+      <li class="nav-item"><a href="bookings.html" class="nav-link px-2 text-white">My Bookings</a></li>
+      <li class="nav-item"><a href="#" class="nav-link px-2 text-white">FAQ</a></li>
+      <li class="nav-item"><a href="#" class="nav-link px-2 text-white">About</a></li>
+    </ul>
+    <p class="text-center text-secondary mb-0">© 2025 Expert Relay</p>
+  </footer>
+</body>
+</html>
