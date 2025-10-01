@@ -1,15 +1,8 @@
 from flask import Flask
-from flask_bootstrap import Bootstrap5
+from .views import bp as main_bp
 
 def create_app():
     app = Flask(__name__)
-    
-    Bootstrap5(app)
-    
-    #add Blueprints
-    from . import views
-    app.register_blueprint(views.mainbp)
-    app.register_blueprint(dest_bp)
-    app.register_blueprint(authbp)
+    app.register_blueprint(main_bp)
 
     return app

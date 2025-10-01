@@ -1,59 +1,5 @@
-<!doctype html>
-<html lang="en">
-<head>
-  <meta charset="utf-8">
-  <title>Expert Relay Home</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <!-- Bootstrap CSS -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-  <!-- Custom CSS (after Bootstrap so it wins) -->
-  <link rel="stylesheet" href="Static/styles.css">
-  <!-- Bootstrap JS bundle -->
-  <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-  <!-- Boostrap icons coz they're cool -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
-</head>
-
-<!-- Banner and Navigation Bar -->
-<body>
-  <nav class="navbar navbar-expand-md navbar-dark exr-nav sticky-top">
-    <div class="container" style="max-width: 50%;">
-      <a class="navbar-brand" href="index.html">
-        <img src="Static/EXR_logo.png" alt="ExpertRelay logo" height="40">
-      </a>
-
-      <!-- Toggler for if in mobile mode -->
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#exrNav" aria-controls="exrNav" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-
-      <!-- Nav links + actions -->
-      <div id="exrNav" class="collapse navbar-collapse">
-        <ul class="navbar-nav me-auto">
-          <li class="nav-item"><a class="nav-link active" href="index.html"><i class="bi bi-house-fill me-1"></i> Home</a></li>
-          <li class="nav-item"><a class="nav-link" href="create-event.html"><i class="bi bi-plus-circle me-1"></i> Create Event</a></li>
-          <li class="nav-item"><a class="nav-link" href="bookings.html"><i class="bi bi-ticket-perforated me-1"></i> My Events</a></li>
-        </ul>
-
-        <!-- Actions (right side) -->
-        <div class="d-flex align-items-center">
-          <a href="search.html" class="btn btn-outline-light" aria-label="Search">
-            <i class="bi bi-search"></i>
-          </a>
-          <div class="dropdown ms-2">
-            <button class="btn btn-outline-light dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-              <i class="bi bi-person-circle"></i>
-            </button>
-            <ul class="dropdown-menu dropdown-menu-end">
-              <li><a class="dropdown-item" href="#">Sign in</a></li>
-              <li><a class="dropdown-item" href="#">Create account</a></li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </div>
-  </nav>
-
+{% extends 'base.html' %}
+{% block content %}
   <!------------------- MAIN PAGE CONTENT ------------------->
 
   <!-- Introduction-->
@@ -100,7 +46,7 @@
       <!-- Event 1 -->
       <div class="col-12 col-md-6 col-lg-4">
         <div class="card h-100">
-          <img class="card-img-top exr-card-img" src="Static/HowToBootstrap.png" alt="">
+          <img class="card-img-top exr-card-img" src="{{url_for('static', filename='HowToBootstrap.png')}}" alt="">
           <div class="card-body d-flex flex-column">
             <div class="d-flex justify-content-between align-items-start">
               <h5 class="card-title mb-1">How to use Bootstrap for dynamic websites! - Tutorial</h5>
@@ -122,7 +68,7 @@
       <!-- Event 2 -->
       <div class="col-12 col-md-6 col-lg-4">
         <div class="card h-100">
-          <img class="card-img-top exr-card-img" src="Static/MarketingYourWebsite.png" alt="">
+          <img class="card-img-top exr-card-img" src="{{url_for('static', filename='MarketingYourWebsite.png')}}" alt="">
           <div class="card-body d-flex flex-column">
             <div class="d-flex justify-content-between align-items-start">
               <h5 class="card-title mb-1">Marketing yourself through your website</h5>
@@ -145,7 +91,7 @@
       <!-- Event 3 -->
       <div class="col-12 col-md-6 col-lg-4">
         <div class="card h-100">
-          <img class="card-img-top exr-card-img" src="Static/UMLDiagram.png" alt="">
+          <img class="card-img-top exr-card-img" src="{{url_for('static', filename='UMLDiagram.png')}}" alt="">
           <div class="card-body d-flex flex-column">
             <div class="d-flex justify-content-between align-items-start">
               <h5 class="card-title mb-1">UML and ERD Diagram Practice</h5>
@@ -167,7 +113,7 @@
       <!-- Event 4 -->
       <div class="col-12 col-md-6 col-lg-4">
         <div class="card h-100">
-          <img class="card-img-top exr-card-img" src="Static/VideoEditing.jpg" alt="">
+          <img class="card-img-top exr-card-img" src="{{url_for('static', filename='VideoEditing.jpg')}}" alt="">
           <div class="card-body d-flex flex-column">
             <div class="d-flex justify-content-between align-items-start">
               <h5 class="card-title mb-1">Video Editting 101</h5>
@@ -189,7 +135,7 @@
       <!-- Event 5 -->
       <div class="col-12 col-md-6 col-lg-4">
         <div class="card h-100">
-          <img class="card-img-top exr-card-img" src="Static/MicrobiologyFood.jpg" alt="">
+          <img class="card-img-top exr-card-img" src="{{url_for('static', filename='MicrobiologyFood.jpg')}}" alt="">
           <div class="card-body d-flex flex-column">
             <div class="d-flex justify-content-between align-items-start">
               <h5 class="card-title mb-1">Anti-microbial agents in Australia's Food Testing</h5>
@@ -208,7 +154,7 @@
       <!-- Event 6 -->
       <div class="col-12 col-md-6 col-lg-4">
         <div class="card h-100">
-          <img class="card-img-top exr-card-img" src="Static/CostOfLiving.jpg" alt="">
+          <img class="card-img-top exr-card-img" src="{{url_for('static', filename='CostOfLiving.jpg')}}" alt="">
           <div class="card-body d-flex flex-column">
             <div class="d-flex justify-content-between align-items-start">
               <h5 class="card-title mb-1">The cost of living crisis and young Aussies</h5>
@@ -228,19 +174,4 @@
       </div>
     </div>
   </main>
-
-  <!-- Footer -->
-  <footer class="bg-dark text-center text-white-50 mt-auto py-4">
-    <ul class="nav justify-content-center border-bottom pb-3 mb-3">
-      <li class="nav-item"><a href="index.html" class="nav-link px-2 text-white">Home</a></li>
-      <li class="nav-item"><a href="search.html" class="nav-link px-2 text-white">Search</a></li>
-      <li class="nav-item"><a href="create-event.html" class="nav-link px-2 text-white">Create Events</a></li>
-      <li class="nav-item"><a href="bookings.html" class="nav-link px-2 text-white">My Bookings</a></li>
-      <li class="nav-item"><a href="#" class="nav-link px-2 text-white">FAQ</a></li>
-      <li class="nav-item"><a href="#" class="nav-link px-2 text-white">About</a></li>
-    </ul>
-    <p class="text-center text-secondary mb-0">© 2025 Expert Relay</p>
-  </footer>
-
-</body>
-</html>
+{% endblock %}
