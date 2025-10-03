@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<!--Main Page Content-->
+<!--Registration Form-->
+    <div class="container">
+        <div class="registration-container">
+            <div class="registration-header">
+                <h2>Create Your Account</h2>
+            </div>
+            <form>
+                <div class="register-name row">
+                    <div class="col-md-6">
+                        <label class="form-label">First Name</label>
+                        <input type="text" class="form-control">
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">Last Name</label>
+                        <input type="text" class="form-control">
+                    </div>
+                </div>
+                <div class="register-email">
+                    <label class="form-label">Email Address</label>
+                    <input type="email" class="form-control">
+                </div>
+                <div class="register-phone">
+                    <label class="form-label">Phone Number</label>
+                    <input type="tel" class="form-control">
+                </div>
+                <div class="register-password">
+                    <label class="form-label">Password</label>
+                    <input type="password" class="form-control">
+                </div>
+                <div class="register-confirm-password">
+                    <label class="form-label">Confirm Password</label>
+                    <input type="password" class="form-control">
+                </div>
+                <div class="register-button d-grid">
+                    <button type="submit" class="btn btn-success btn-lg">Register</button>
+                </div>
+                <div class="login-link">
+                    <p>Already have an account? <a href="login.html">Login here</a></p>
+                </div>
+            </div>
+        </form>
+    </div>
+
+{% end block %}
