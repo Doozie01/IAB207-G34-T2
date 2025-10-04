@@ -8,7 +8,7 @@ def create_app():
     app = Flask(__name__)
 
 
-    # Database configuration and initialisation
+    # DB configuration and initialisation
     app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///traveldb.sqlite'
     db.init_app(app)
 
