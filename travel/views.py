@@ -26,6 +26,6 @@ def bookings():
 def login():
     return render_template('login.html', active_page="login")
 
-@bp.route('register')
+@bp.route('/register')
 def register():
     return render_template('register.html', active_page="register")
