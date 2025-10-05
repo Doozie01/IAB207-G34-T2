@@ -15,6 +15,7 @@ class User(db.Model):
     orders = db.relationship('Order', backref='user')
     events = db.relationship('Event', backref='user')
 
+
     def __repr__(self):
         return f"Name: {self.name}"
 
@@ -63,7 +64,7 @@ class Order(db.Model):
     __tablename__ = 'orders'
     id = db.Column(db.Integer, primary_key=True)
     quantity = db.Column(db.Integer, nullable=False)
-    # total = db.Columb(db.Float, nullable=False)
+    # total = db.Columb(db.Numeric, nullable=False)
     created_at = db.Column(db.DateTime, default=datetime.now())
 
     # Foreign keys
@@ -80,7 +81,8 @@ class Category(db.Model):
     name = db.Column(db.String(50), unique=True, nullable=False)
 
     # Relation to other classes
-    events = db.relationship('Event', backref='caregory')
+    events = db.relationship('Event', backref='category')
+
 
     def __repr__(self):
         return f"Category: {self.name}"
