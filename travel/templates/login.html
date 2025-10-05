@@ -8,14 +8,14 @@
         <div class="login-header">
             <h2>Login to Your Account</h2>
         </div>
-        <form>
+        <form action="/login", method="POST">
             <div class="login-email">
                 <label class="form-label">Email Address</label>
-                <input type="email" class="form-control">
+                <input type="email" class="form-control" id="email" placeholder="Enter Email Address" name="email">
             </div>
             <div class="login-password">
                 <label class="form-label">Password</label>
-                <input type="password" class="form-control">
+                <input type="password" class="form-control" id="pwd" placeholder="Enter Password" name="pwd">
             </div>
             <div class="form-check">
                 <label class="form-label">Remember Me</label>
@@ -34,4 +34,4 @@
     </div>
 </div>
 
-{% end block %}
+{% endblock %}

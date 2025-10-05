@@ -1,10 +1,15 @@
-from flask import Blueprint, render_template, url_for
+from flask import Blueprint, render_template, url_for, request, session
 
 bp = Blueprint('main', __name__)
 
 @bp.route('/')
 def index():
     return render_template('index.html', active_page="index")
+    if 'email' in session:
+        str = f"Welcome to [blank], {session['email']}"
+    else:
+        str = "<h1>[blank]<h1>"
+    return str
 
 @bp.route('/search')
 def search():
@@ -21,11 +26,3 @@ def create_event():
 @bp.route('/bookings')
 def bookings():
     return render_template('bookings.html', active_page="bookings")
-
-@bp.route('/login')
-def login():
-    return render_template('login.html', active_page="login")
-
-@bp.route('register')
-def register():
-    return render_template('register.html', active_page="register")
