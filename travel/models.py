@@ -16,3 +16,34 @@ class User(db.Model):
     def __repr__(self):
         return f"Name: {self.name}"
 
+class Comment(db.Model):
+    __tablename__ = 'comments'
+    id = db.Column(db.Integer, primary_key=True)
+    text = db.Column(db.String(400))
+    posted_at = db.Column(db.DateTime, default=datetime.now())
+
+    # Relation to other classes
+
+
+    def __repr__(self):
+        return f"Comment: {self.text}"
+
+class Event(db.Model):
+    __tablename__ = 'events'
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(100), index=True, unique=True, nullable=False)
+    description = db.Column(db.String(400))
+    image = db.Column(db.String(400))
+    start_at = db.Column(db.DateTime, nullable=False)
+    end_at = db.Column(db.DateTime, nullable=False)
+    venue = db.Column(db.String(200), nullable=False)
+    status = db.Column(db.String(20), nullable=False)
+    tickets_av = db.Column(db.Integer, nullable=False)
+
+    # Relation to other classes
+
+
+
+    def __repr__(self):
+        return f"Event title: {self.title}"
+
