@@ -16,17 +16,6 @@ class User(db.Model):
     def __repr__(self):
         return f"Name: {self.name}"
 
-class Comment(db.Model):
-    __tablename__ = 'comments'
-    id = db.Column(db.Integer, primary_key=True)
-    text = db.Column(db.String(400))
-    posted_at = db.Column(db.DateTime, default=datetime.now())
-
-    # Relation to other classes
-
-
-    def __repr__(self):
-        return f"Comment: {self.text}"
 
 class Event(db.Model):
     __tablename__ = 'events'
@@ -40,10 +29,47 @@ class Event(db.Model):
     status = db.Column(db.String(20), nullable=False)
     tickets_av = db.Column(db.Integer, nullable=False)
 
+    # Foreign keys
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+
     # Relation to other classes
 
 
 
     def __repr__(self):
         return f"Event title: {self.title}"
+
+
+class Comment(db.Model):
+    __tablename__ = 'comments'
+    id = db.Column(db.Integer, primary_key=True)
+    text = db.Column(db.String(400))
+    posted_at = db.Column(db.DateTime, default=datetime.now())
+    
+    # Foreign keys
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    event_id = db.Column(db.Integer, db.ForeignKey('events.id'))
+
+    # Relation to other classes
+
+
+    def __repr__(self):
+        return f"Comment: {self.text}"
+
+
+class Order(db.Model):
+    __tablename__ = 'orders'
+    id = db.Column(db.Integer, primary_key=True)
+    quantity = db.Column(db.Integer, nullable=False)
+    # total = db.Columb(db.Float, nullable=False)
+    created_at = db.Column(db.DateTime, default=datetime.now())
+
+    # Foreign keys
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    event_id = db.Column(db.Integer, db.ForeignKey('events.id'))
+
+    # Relation to other classes
+
+    def __repr__(self):
+        return f"Order ID: {self.id}"
 
