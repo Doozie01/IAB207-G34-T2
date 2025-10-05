@@ -11,7 +11,9 @@ class User(db.Model):
     created_at = db.Column(db.DateTime, default=datetime.now())
 
     # Relation to other classes
-    
+    comments = db.relationship('Comment', backref='user')
+    orders = db.relationship('Order', backref='user')
+    events = db.relationship('Event', backref='user')
 
     def __repr__(self):
         return f"Name: {self.name}"
@@ -34,7 +36,8 @@ class Event(db.Model):
     category_id = db.Column(db.Integer, db.ForeignKey('categories.id'))
 
     # Relation to other classes
-
+    comments = db.relationship('Comment', backref='event')
+    orders = db.relationship('Order', backref='event')
 
 
     def __repr__(self):
@@ -50,8 +53,6 @@ class Comment(db.Model):
     # Foreign keys
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     event_id = db.Column(db.Integer, db.ForeignKey('events.id'))
-
-    # Relation to other classes
 
 
     def __repr__(self):
@@ -69,7 +70,6 @@ class Order(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     event_id = db.Column(db.Integer, db.ForeignKey('events.id'))
 
-    # Relation to other classes
 
     def __repr__(self):
         return f"Order ID: {self.id}"
@@ -80,3 +80,7 @@ class Category(db.Model):
     name = db.Column(db.String(50), unique=True, nullable=False)
 
     # Relation to other classes
+    events = db.relationship('Event', backref='caregory')
+
+    def __repr__(self):
+        return f"Category: {self.name}"
