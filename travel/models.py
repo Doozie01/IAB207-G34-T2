@@ -31,6 +31,7 @@ class Event(db.Model):
 
     # Foreign keys
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    category_id = db.Column(db.Integer, db.ForeignKey('categories.id'))
 
     # Relation to other classes
 
@@ -73,3 +74,9 @@ class Order(db.Model):
     def __repr__(self):
         return f"Order ID: {self.id}"
 
+class Category(db.Model):
+    __tablename__ = 'categories'
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(50), unique=True, nullable=False)
+
+    # Relation to other classes
