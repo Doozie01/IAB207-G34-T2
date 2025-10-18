@@ -3,8 +3,13 @@
 {% from 'bootstrap5/form.html' import render_form %}
 
 {% block content %}
+<<<<<<< HEAD
 
 <div class="container">
+=======
+<main class="exr-shell">
+<div class="container-fluid">
+>>>>>>> origin/main
     <div class="page-header">
         <h2>{{heading}}</h2>
     </div>
@@ -22,19 +27,24 @@
     {% endif %}
     {% endwith %}
 
+<<<<<<< HEAD
     <div class="card col-md-6 ml-5">
+=======
+    <div class="container">
+>>>>>>> origin/main
         {{render_form(form)}}
     </div>
 
     {% if heading|lower == 'login' %}
-    <div class="col-md-4 mb-5 ml-5">
+    <div class="container">
         <p>Don't have an account? <a href="{{ url_for('auth.register') }}">Register here</a>.</p>
     </div>
     {% else %}
-    <div class="col-md-4 mb-5 ml-5">
+    <div class="container">
         <p>Already have an account? <a href="{{ url_for('auth.login') }}">Login here</a></p>
     </div>
     {% endif %}
 
 </div>
+</main>
 {% endblock %}

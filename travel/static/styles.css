@@ -19,6 +19,10 @@ body {
   flex-direction: column;
 }
 
+.dropdown {
+  z-index: 999;
+}
+
 /* ".exr" prefix added so I don't confused my css styles with 
 built in ones by Boostrap. Stands for ExpertRelay.*/
 
@@ -29,7 +33,7 @@ This is to ensure that the content stays within a readable
 area on the screen.
 */
 .exr-shell {
-  max-width: 60%;
+  max-width: 70%;
   margin: 24px auto;
   background: #ffffff;
   border-radius: 16px;
@@ -87,7 +91,7 @@ area on the screen.
 /* styling for search bar on search page */
 .exr-sticky-search{
       /* position keeps it below nav bar but above content */
-      position: sticky; top: 0; z-index: 1030; 
+      position: sticky; top: 0; z-index: 1000; 
       background: #d3cebe;                       
       border-bottom: 1px solid rgba(0,0,0,.06);
       padding: 12px 0;
