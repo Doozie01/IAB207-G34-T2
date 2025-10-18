@@ -1,6 +1,7 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_bootstrap import Bootstrap5
+
 db = SQLAlchemy()
 
 # Next line is for testing purposes
