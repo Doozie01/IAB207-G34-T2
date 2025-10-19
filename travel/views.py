@@ -26,9 +26,6 @@ def create_event():
 
 @bp.route('/bookings')
 def bookings():
-<<<<<<< HEAD
-    return render_template('bookings.html', active_page="bookings")
-=======
     return render_template('bookings.html', active_page="bookings")
 
 # @bp.route('/login')
@@ -38,4 +35,3 @@ def bookings():
 # @bp.route('/register')
 # def register():
 #     return render_template('register.html', active_page="register")
->>>>>>> origin/main

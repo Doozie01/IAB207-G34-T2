@@ -1,14 +1,10 @@
-from flask import Blueprint, render_template, redirect, url_for, flash
+from flask import Blueprint, render_template, request, redirect, url_for, flash
 from .forms import LoginForm, RegisterForm
-<<<<<<< HEAD
 from .models import User
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import login_user, logout_user, login_required
 
 from .import db
-=======
-from . import db
->>>>>>> origin/main
 
 authbp = Blueprint('auth', __name__)
 
@@ -19,12 +15,15 @@ def login():
     if loginForm.validate_on_submit():
         email = loginForm.email.data
         password = loginForm.password.data
-        u1 = User.query.filter_by(name=email).first()
+        u1 = User.query.filter_by(emailid=email).first()
 
         if u1 is None:
-            error='Incorrect Email'
+            error = 'Incorrect Email'
         elif not check_password_hash(u1.password_hash, password):
-            error='Incorrect Password'
+            error = 'Incorrect Password'
+        else:
+            login_user(u1)
+            return redirect(url_for('main.index'))
 
         if error is None:
             login_user(u1)
@@ -43,26 +42,37 @@ def login():
         return redirect(next or url_for('auth.login'))
     return render_template('user.html', form=loginForm, heading='Login')
 
-@authbp.route('/register', methods = ['GET', 'POST'])
+@authbp.route('/register', methods=['GET', 'POST'])
 def register():
-    registerForm = RegisterForm()
-    if registerForm.validate_on_submit():
-        
-        name = registerForm.name.data
-        tel = registerForm.number.data
-        pwd = registerForm.password.data
-        email = registerForm.email.data
-        address = registerForm.address.data
+    form = RegisterForm()
+    if form.validate_on_submit():
+        name = form.name.data                          
+        tel = form.number.data
+        pwd = form.password.data
+        email = form.email.data
+        address = form.address.data                    
 
         pwd_hash = generate_password_hash(pwd)
-        new_user = User(name=name, password_hash=pwd_hash, emailid=email, phone=tel)
+        new_user = User(
+            name=f"{name.get('first_name','').strip()} {name.get('last_name','').strip()}".strip(),
+            emailid=email,
+            password_hash=pwd_hash,
+            phone=str(tel),
+            address=f"{address.get('street','')}, {address.get('city','')} {address.get('state','')} {address.get('zip_code','')}".strip()
+        )
         db.session.add(new_user)
         db.session.commit()
 
-        print('Successfully Registered')
-
+        flash('Successfully Registered', 'success')
         return redirect(url_for('auth.login'))
-    return render_template('user.html', form=registerForm, heading='Create an Account')
+
+    # Debug in terminal
+    if request.method == 'POST' and not form.validate():
+        print('Register errors:', form.errors)
+        flash('Please fix the errors below.', 'error')
+
+    return render_template('register.html', form=form, heading='Create an Account')
+
 
 @authbp.route("/logout")
 @login_required

@@ -1,40 +1,37 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
-from flask_bootstrap import Bootstrap5
 from flask_login import LoginManager
+from flask_bootstrap import Bootstrap5
 
 db = SQLAlchemy()
-
-# Next line is for testing purposes
-from .models import User
-
+login_manager = LoginManager()
 
 def create_app():
     app = Flask(__name__)
-<<<<<<< HEAD
-=======
-    app.secret_key = 'secret'
->>>>>>> origin/main
+    app.config.update(
+        SECRET_KEY='secret',
+        SQLALCHEMY_DATABASE_URI='sqlite:///traveldb.sqlite',
+        SQLALCHEMY_TRACK_MODIFICATIONS=False,
+    )
 
-    # DB configuration and initialisation
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///traveldb.sqlite'
     db.init_app(app)
-
-
+    login_manager.init_app(app)
+    login_manager.login_view = 'auth.login'
     Bootstrap5(app)
 
     from .views import bp as main_bp
     app.register_blueprint(main_bp)
-    from . import auth
-    app.register_blueprint(auth.authbp)
 
-    login_manager = LoginManager()
-    login_manager.login_view='auth.login'
-    login_manager.init_app(app)
+    from .auth import authbp
+    app.register_blueprint(authbp)
 
-    from.models import User
+    with app.app_context():
+        from . import models
+        db.create_all()
+
     @login_manager.user_loader
-    def load_user(user_id):
+    def load_user(user_id: str):
+        from .models import User
         return User.query.get(int(user_id))
 
     return app
