@@ -12,9 +12,11 @@ authbp = Blueprint('auth', __name__)
 def login():
     loginForm = LoginForm()
     error=None
+
     if loginForm.validate_on_submit():
         email = loginForm.email.data
         password = loginForm.password.data
+        remember = loginForm.remember.data
         u1 = User.query.filter_by(emailid=email).first()
 
         if u1 is None:
@@ -22,7 +24,7 @@ def login():
         elif not check_password_hash(u1.password_hash, password):
             error = 'Incorrect Password'
         else:
-            login_user(u1)
+            login_user(u1, remember=remember)
             return redirect(url_for('main.index'))
 
         if error is None:
@@ -38,6 +40,7 @@ def login():
 @authbp.route('/register', methods=['GET', 'POST'])
 def register():
     registerForm = RegisterForm()
+    
     if registerForm.validate_on_submit():
         name = registerForm.name.data                          
         tel = registerForm.number.data
