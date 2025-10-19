@@ -5,16 +5,9 @@ from flask_login import LoginManager
 
 db = SQLAlchemy()
 
-# Next line is for testing purposes
-from .models import User
-
-
 def create_app():
     app = Flask(__name__)
-<<<<<<< HEAD
-=======
     app.secret_key = 'secret'
->>>>>>> origin/main
 
     # DB configuration and initialisation
     app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///traveldb.sqlite'

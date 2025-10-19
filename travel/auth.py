@@ -30,15 +30,6 @@ def login():
             flash(error)
         return render_template('user.html', form=loginForm, heading='Login')
 
-        login_user(user)
-        print('Successfully Logged In')
-        flash('You Logged in Successfully')
-        next = flask.request.args.get('next')
-        if not url_has_allowed_host_and_scheme(next, request.host):
-            return abort(400)
-        return redirect(next or url_for('auth.login'))
-    return render_template('user.html', form=loginForm, heading='Login')
-
 @authbp.route('/register', methods = ['GET', 'POST'])
 def register():
     registerForm = RegisterForm()
