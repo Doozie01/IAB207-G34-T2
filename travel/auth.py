@@ -32,33 +32,23 @@ def login():
             print(error)
             flash(error)
 
-    return render_template('user.html', form=loginForm, heading='Login')
+        pass
+    return render_template('user.html', form=loginForm, heading='Login', mode='login')
 
 @authbp.route('/register', methods=['GET', 'POST'])
 def register():
     registerForm = RegisterForm()
     if registerForm.validate_on_submit():
-        
-        name = f"{registerForm.name.first_name.data} {registerForm.name.last_name.data}"
+        name = registerForm.name.data                          
         tel = registerForm.number.data
         pwd = registerForm.password.data
         email = registerForm.email.data
-        address = f"{registerForm.address.street.data}, {registerForm.address.city.data}, {registerForm.address.state.data} {registerForm.address.zip_code.data}"
+        address = registerForm.address.data
 
         existing_user = User.query.filter_by(emailid=email).first()
         if existing_user:
             flash('Email already registered. Please log in.')
-            return redirect(url_for('auth.login'))
-
-        pwd_hash = generate_password_hash(pwd)
-        new_user = User(name=name, password_hash=pwd_hash, emailid=email, phone=tel, address=address)
-    form = RegisterForm()
-    if form.validate_on_submit():
-        name = form.name.data                          
-        tel = form.number.data
-        pwd = form.password.data
-        email = form.email.data
-        address = form.address.data                    
+            return redirect(url_for('auth.login'))          
 
         pwd_hash = generate_password_hash(pwd)
         new_user = User(
@@ -75,11 +65,12 @@ def register():
         return redirect(url_for('auth.login'))
 
     # Debug in terminal
-    if request.method == 'POST' and not form.validate():
-        print('Register errors:', form.errors)
+    if request.method == 'POST' and not registerForm.validate():
+        print('Register errors:', registerForm.errors)
         flash('Please fix the errors below.', 'error')
 
-    return render_template('register.html', form=form, heading='Create an Account')
+        pass
+    return render_template('user.html', form=registerForm, heading='Create an Account', mode='register')
 
 
 @authbp.route("/logout")

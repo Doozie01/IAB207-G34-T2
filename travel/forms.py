@@ -1,7 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms.fields import TextAreaField, SubmitField, StringField, PasswordField, EmailField, TelField, FormField, SelectField, IntegerField
-from wtforms.validators import InputRequired, Email, EqualTo, Length, NumberRange
-from wtforms.fields import (TextAreaField, SubmitField, StringField, PasswordField, EmailField,TelField, FormField, SelectField, IntegerField)
+from wtforms.fields import TextAreaField, SubmitField, StringField, PasswordField, EmailField, TelField, FormField, SelectField, IntegerField, BooleanField
 from wtforms.validators import InputRequired, Email, EqualTo, Length, NumberRange
 
 # ----- Subforms (CSRF disabled) ----- #
@@ -25,17 +23,8 @@ class AddressForm(FlaskForm):
 class LoginForm(FlaskForm):
     email = EmailField("Email", validators=[InputRequired('Enter Email')])
     password = PasswordField("Password", validators=[InputRequired('Enter Password')])
+    remember = BooleanField('Remember Me')
     submit = SubmitField("Login")
-
-class NameForm(FlaskForm):
-    first_name = StringField("First Name", validators=[InputRequired()])
-    last_name = StringField("Last Name", validators=[InputRequired()])
-
-class AddressForm(FlaskForm):
-    street = StringField("Address Line", validators=[InputRequired()])
-    city =  StringField("City", validators=[InputRequired()])
-    state = SelectField("State", choices=[('QLD'), ('NSW'), ('VIC'), ('WA'), ('SA'), ('NT'), ('ACT'), ('TAS')], validators=[InputRequired()])
-    zip_code = IntegerField("Zip Code", validators=[InputRequired(), NumberRange(min=200, max=9999, message="Please enter a real zip code")])
 
 class RegisterForm(FlaskForm):
     name    = FormField(NameForm)   # NameForm (no CSRF)
