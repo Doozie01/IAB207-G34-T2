@@ -44,10 +44,18 @@
             <button class="btn btn-outline-light dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
               <i class="bi bi-person-circle"></i>
             </button>
+          {% if current_user.is_authenticated %}
+            <ul class="dropdown-menu dropdown-menu-end">
+              <li><a class="dropdown-item" href="#">My Profile</a></li>
+              <li><a class="dropdown-item" href="#">Create Event</a></li>
+              <li><a class="dropdown-item" href="#">Log Out</a></li>
+            </ul>
+            {% else %}
             <ul class="dropdown-menu dropdown-menu-end">
               <li><a class="dropdown-item" href="{{ url_for('auth.login') }}">Log in</a></li>
               <li><a class="dropdown-item" href="{{ url_for('auth.register') }}">Create account</a></li>
             </ul>
+          {% endif %}
           </div>
         </div>
       </div>

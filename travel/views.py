@@ -1,4 +1,5 @@
 from flask import Blueprint, render_template, url_for, request, session
+from flask_login import login_required, current_user
 
 bp = Blueprint('main', __name__)
 
@@ -25,6 +26,9 @@ def create_event():
 
 @bp.route('/bookings')
 def bookings():
+<<<<<<< HEAD
+    return render_template('bookings.html', active_page="bookings")
+=======
     return render_template('bookings.html', active_page="bookings")
 
 # @bp.route('/login')
@@ -34,3 +38,4 @@ def bookings():
 # @bp.route('/register')
 # def register():
 #     return render_template('register.html', active_page="register")
+>>>>>>> origin/main

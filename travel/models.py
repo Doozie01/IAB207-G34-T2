@@ -4,10 +4,11 @@ from datetime import datetime
 class User(db.Model):
     __tablename__ = 'users'
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(100), index=True, unique=True, nullable=False)
-    email = db.Column(db.String(100), index=True, unique=True, nullable=False)
+    name = db.Column(db.String(100), index=True, unique=False, nullable=False)
+    emailid = db.Column(db.String(100), index=True, unique=True, nullable=False)
     password_hash = db.Column(db.String(255), nullable=False)
     phone = db.Column(db.String(15))
+    address = db.Column(db.String(100), index=True, unique=False, nullable=False)
     created_at = db.Column(db.DateTime, default=datetime.now())
 
     # Relation to other classes
