@@ -16,6 +16,8 @@ def create_app():
 
     Bootstrap5(app)
 
+    from . import models
+
     from .views import bp as main_bp
     app.register_blueprint(main_bp)
     from . import auth

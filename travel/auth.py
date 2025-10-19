@@ -15,7 +15,7 @@ def login():
     if loginForm.validate_on_submit():
         email = loginForm.email.data
         password = loginForm.password.data
-        u1 = User.query.filter_by(name=email).first()
+        u1 = User.query.filter_by(emailid=email).first()
 
         if u1 is None:
             error='Incorrect Email'
@@ -24,25 +24,31 @@ def login():
 
         if error is None:
             login_user(u1)
-            return redirect(url_for('auth.login'))
+            return redirect(url_for('main.index'))
         else:
             print(error)
             flash(error)
-        return render_template('user.html', form=loginForm, heading='Login')
+
+    return render_template('user.html', form=loginForm, heading='Login')
 
 @authbp.route('/register', methods = ['GET', 'POST'])
 def register():
     registerForm = RegisterForm()
     if registerForm.validate_on_submit():
         
-        name = registerForm.name.data
+        name = f"{registerForm.name.first_name.data} {registerForm.name.last_name.data}"
         tel = registerForm.number.data
         pwd = registerForm.password.data
         email = registerForm.email.data
-        address = registerForm.address.data
+        address = f"{registerForm.address.street.data}, {registerForm.address.city.data}, {registerForm.address.state.data} {registerForm.address.zip_code.data}"
+
+        existing_user = User.query.filter_by(emailid=email).first()
+        if existing_user:
+            flash('Email already registered. Please log in.')
+            return redirect(url_for('auth.login'))
 
         pwd_hash = generate_password_hash(pwd)
-        new_user = User(name=name, password_hash=pwd_hash, emailid=email, phone=tel)
+        new_user = User(name=name, password_hash=pwd_hash, emailid=email, phone=tel, address=address)
         db.session.add(new_user)
         db.session.commit()
 
@@ -55,4 +61,4 @@ def register():
 @login_required
 def logout():
     logout_user()
-    return redirect(active_page="index")
+    return redirect(url_for('main.index'))

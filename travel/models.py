@@ -1,7 +1,8 @@
 from . import db
+from flask_login import UserMixin
 from datetime import datetime
 
-class User(db.Model):
+class User(UserMixin, db.Model):
     __tablename__ = 'users'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100), index=True, unique=False, nullable=False)
@@ -9,7 +10,7 @@ class User(db.Model):
     password_hash = db.Column(db.String(255), nullable=False)
     phone = db.Column(db.String(15))
     address = db.Column(db.String(100), index=True, unique=False, nullable=False)
-    created_at = db.Column(db.DateTime, default=datetime.now())
+    created_at = db.Column(db.DateTime, default=datetime.now)
 
     # Relation to other classes
     comments = db.relationship('Comment', backref='user')
@@ -50,7 +51,7 @@ class Comment(db.Model):
     __tablename__ = 'comments'
     id = db.Column(db.Integer, primary_key=True)
     text = db.Column(db.String(400), nullable=False)
-    posted_at = db.Column(db.DateTime, default=datetime.now())
+    posted_at = db.Column(db.DateTime, default=datetime.now)
     
     # Foreign keys
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
@@ -66,7 +67,7 @@ class Order(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     quantity = db.Column(db.Integer, nullable=False)
     # total = db.Column(db.Numeric, nullable=False)
-    created_at = db.Column(db.DateTime, default=datetime.now())
+    created_at = db.Column(db.DateTime, default=datetime.now)
 
     # Foreign keys
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
