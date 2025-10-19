@@ -27,7 +27,7 @@ class Event(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(100), index=True, unique=True, nullable=False)
     description = db.Column(db.String(400))
-    image = db.Column(db.String(400))
+    image = image = db.Column(db.String(255), nullable=True)
     start_at = db.Column(db.DateTime, nullable=False)
     end_at = db.Column(db.DateTime, nullable=False)
     venue = db.Column(db.String(200), nullable=False)

@@ -1,177 +1,80 @@
 {% extends 'base.html' %}
 {% block content %}
-  <!------------------- MAIN PAGE CONTENT ------------------->
 
-  <!-- Introduction-->
-  <section class="exr-shell mb-4 text-center">
-  <h1 class="h3 fw-bold mb-2">Welcome to ExpertRelay!</h1>
-  <p class="lead mb-4">Find and create events, and connect with industry professionals</p>
+<!-- HERO -->
+<section class="exr-shell mb-4 text-center">
+  <div class="hero-inner container">
+    <h1 class="h3 fw-bold mb-2">Welcome to ExpertRelay!</h1>
+    <p class="lead mb-4">Find and create events, and connect with industry professionals</p>
 
-  <!-- Search bar -->
-  <form class="d-flex justify-content-center mb-3" action="search.html" method="get">
-    <input class="form-control form-control-lg w-90 me-2" type="search" placeholder="Search for events" aria-label="Search" name="q">
-    <button class="btn btn-primary btn-lg" type="submit">Search</button>
-  </form>
-
-  <!-- Create event bar -->
-  <div class="d-flex justify-content-center">
-    <input class="form-control form-control-lg w-90 me-2" type="text" placeholder="Create an event">
-    <a href="create-event.html" class="btn btn-success btn-lg">Create</a>
+    <form class="hero-search" action="{{ url_for('main.index') }}" method="get">
+      <div class="input-group input-group-lg">
+        <input type="text" name="q" class="form-control" placeholder="Search for events">
+        <button class="btn btn-primary" type="submit">Search</button>
+      </div>
+    </form>
   </div>
-  </section>
+</section>
 
-  <!-- Body -->
-  <main class="exr-shell">   
-    <div class="mb-3">
-      <h1 class="h3 mb-1">Upcoming Events</h1>
-      <p class="text-secondary mb-0">See upcoming events! Browse by interests or see all the world has to offer!</p>
+<main class="exr-shell">
+  <div class="container mt-4">
+    <div class="row">
+      <!-- SIDEBAR: Categories -->
+      <aside class="col-12 col-md-3 mb-4">
+        <div class="list-group sticky-top" style="top: 1rem;">
+          <a href="{{ url_for('main.index') }}"
+            class="list-group-item list-group-item-action {% if not active_category %}active{% endif %}">
+            All
+          </a>
+          {% for c in categories %}
+          <a href="{{ url_for('main.index', cat=c.id) }}"
+            class="list-group-item list-group-item-action {% if active_category and c.id==active_category.id %}active{% endif %}">
+            {{ c.name }}
+          </a>
+          {% endfor %}
+        </div>
+      </aside>
+
+      <!-- EVENTS GRID -->
+      <section class="col-12 col-md-9">
+        {% if active_category %}
+        <h2 class="h4 mb-3">{{ active_category.name }} events</h2>
+        {% else %}
+        <h2 class="h4 mb-3">Upcoming events</h2>
+        {% endif %}
+
+        <div class="row g-4">
+          {% for e in events %}
+          <div class="col-12 col-sm-6 col-lg-4">
+            <a class="event-card card h-100 shadow-sm text-decoration-none" href="#">
+              {% if e.image %}
+              <img src="{{ url_for('static', filename='uploads/' + e.image) }}" alt="{{ e.title }}"
+                class="card-img-top img-fluid"
+                style="object-fit: cover; height: 200px; border-top-left-radius: 0.5rem; border-top-right-radius: 0.5rem;">
+              {% endif %}
+              <div class="card-body">
+                <h3 class="h6 card-title mb-2">{{ e.title }}</h3>
+                <p class="text-muted small mb-2">
+                  {{ e.start_at.strftime('%d/%m/%Y, %I:%M %p') }}{% if e.venue %} • {{ e.venue }}{% endif %}
+                </p>
+                <p class="card-text text-muted small">
+                  {{ e.description[:120] }}{% if e.description|length > 120 %}…{% endif %}
+                </p>
+              </div>
+              <div class="card-footer bg-white border-0">
+                <span class="badge bg-secondary">{{ e.status }}</span>
+                {% if e.tickets_av and e.tickets_av>0 %}
+                <span class="badge bg-success ms-2">{{ e.tickets_av }} tickets</span>
+                {% endif %}
+              </div>
+            </a>
+          </div>
+          {% else %}
+          <p class="text-muted">No events yet.</p>
+          {% endfor %}
+        </div>
+      </section>
     </div>
-
-    <!-- Categories -->
-    <div class="row g-2 mb-3">
-      <div class="col-auto"><span class="btn btn-outline-dark">All</span></div>
-      <div class="col-auto"><span class="btn btn-outline-dark">Business</span></div>
-      <div class="col-auto"><span class="btn btn-outline-dark">Regulation</span></div>
-      <div class="col-auto"><span class="btn btn-outline-dark">Technology</span></div>
-      <div class="col-auto"><span class="btn btn-outline-dark">Marketing</span></div>
-      <div class="col-auto"><span class="btn btn-outline-dark">Art</span></div>
-      <div class="col-auto"><span class="btn btn-outline-dark">Science</span></div>
-      <div class="col-auto"><span class="btn btn-outline-dark">Teaching</span></div>
-      <div class="col-auto"><span class="btn btn-outline-dark">Lifestyle</span></div>
-      <div class="col-auto"><span class="btn btn-outline-dark">Health</span></div>
-    </div>
-
-    <!-- Example events -->
-    <div class="row g-3">
-      <!-- Event 1 -->
-      <div class="col-12 col-md-6 col-lg-4">
-        <div class="card h-100">
-          <img class="card-img-top exr-card-img" src="{{url_for('static', filename='HowToBootstrap.png')}}" alt="">
-          <div class="card-body d-flex flex-column">
-            <div class="d-flex justify-content-between align-items-start">
-              <h5 class="card-title mb-1">How to use Bootstrap for dynamic websites! - Tutorial</h5>
-              <!-- Boostrap badges are awesome. Changes colour of label 
-               based on if the event is open, soldout or inactive.-->
-              <span class="badge badge-open">Open</span> 
-            </div>
-            <p class="card-text small text-secondary mb-2">03/09/2025, 9:00 AM • QUT Gardens Point, Brisbane</p>
-            <p class="card-text">Tutorial on how to use bootstrap elements to make your websites pop!</p>
-            <div class="mt-auto d-flex justify-content-between align-items-center">
-              <span class="badge text-bg-light">Technology</span>
-              <!-- Link to the single example details page -->
-              <a class="btn btn-primary" href="event.html">View details</a>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Event 2 -->
-      <div class="col-12 col-md-6 col-lg-4">
-        <div class="card h-100">
-          <img class="card-img-top exr-card-img" src="{{url_for('static', filename='MarketingYourWebsite.png')}}" alt="">
-          <div class="card-body d-flex flex-column">
-            <div class="d-flex justify-content-between align-items-start">
-              <h5 class="card-title mb-1">Marketing yourself through your website</h5>
-              <span class="badge badge-inactive">Inactive</span>
-            </div>
-            <p class="card-text small text-secondary mb-2">09/05/2025, 1:00 PM • QUT Kelvin Grove, Brisbane</p>
-            <p class="card-text">Hands-on workshop to identify methods of marketing your website.</p>
-            <div class="mt-auto d-flex justify-content-between align-items-center">
-              <div class="d-flex gap-2 flex-wrap">
-                <!-- Multiple Categories can be selected -->
-                <span class="badge text-bg-light">Business</span>
-                <span class="badge text-bg-light">Marketing</span>
-              </div>
-              <a class="btn btn-primary" href="event.html">View details</a>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Event 3 -->
-      <div class="col-12 col-md-6 col-lg-4">
-        <div class="card h-100">
-          <img class="card-img-top exr-card-img" src="{{url_for('static', filename='UMLDiagram.png')}}" alt="">
-          <div class="card-body d-flex flex-column">
-            <div class="d-flex justify-content-between align-items-start">
-              <h5 class="card-title mb-1">UML and ERD Diagram Practice</h5>
-              <span class="badge badge-cancel">Cancelled</span>
-            </div>
-            <p class="card-text small text-secondary mb-2">03/09/2025, 10:00 AM • Online</p>
-            <p class="card-text">An online tutorial to strengthen your UML and ERD model making.</p>
-            <div class="mt-auto d-flex justify-content-between align-items-center">
-              <div class="d-flex gap-2 flex-wrap">
-                <span class="badge text-bg-light">Business</span>
-                <span class="badge text-bg-light">Technology</span>
-              </div>
-              <a class="btn btn-primary" href="event.html">View details</a>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Event 4 -->
-      <div class="col-12 col-md-6 col-lg-4">
-        <div class="card h-100">
-          <img class="card-img-top exr-card-img" src="{{url_for('static', filename='VideoEditing.jpg')}}" alt="">
-          <div class="card-body d-flex flex-column">
-            <div class="d-flex justify-content-between align-items-start">
-              <h5 class="card-title mb-1">Video Editting 101</h5>
-              <span class="badge badge-open">Open</span>
-            </div>
-            <p class="card-text small text-secondary mb-2">09/09/2025, 1:00 PM • Online</p>
-            <p class="card-text">Online workshop showing you how to professionally edit videos.</p>
-            <div class="mt-auto d-flex justify-content-between align-items-center">
-              <div class="d-flex gap-2 flex-wrap">
-                <span class="badge text-bg-light">Art</span>
-                <span class="badge text-bg-light">Technology</span>
-              </div>
-              <a class="btn btn-primary" href="event.html">View details</a>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Event 5 -->
-      <div class="col-12 col-md-6 col-lg-4">
-        <div class="card h-100">
-          <img class="card-img-top exr-card-img" src="{{url_for('static', filename='MicrobiologyFood.jpg')}}" alt="">
-          <div class="card-body d-flex flex-column">
-            <div class="d-flex justify-content-between align-items-start">
-              <h5 class="card-title mb-1">Anti-microbial agents in Australia's Food Testing</h5>
-              <span class="badge badge-sold">Sold Out</span>
-            </div>
-            <p class="card-text small text-secondary mb-2">05/09/2025, All Day • MNAQ QLD, Brisbane</p>
-            <p class="card-text">Industry workshop discussing the use of anti-microbial agents in testing Australia's food supply.</p>
-            <div class="mt-auto d-flex justify-content-between align-items-center">
-              <span class="badge text-bg-light">Science</span>
-              <a class="btn btn-primary" href="event.html">View details</a>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Event 6 -->
-      <div class="col-12 col-md-6 col-lg-4">
-        <div class="card h-100">
-          <img class="card-img-top exr-card-img" src="{{url_for('static', filename='CostOfLiving.jpg')}}" alt="">
-          <div class="card-body d-flex flex-column">
-            <div class="d-flex justify-content-between align-items-start">
-              <h5 class="card-title mb-1">The cost of living crisis and young Aussies</h5>
-              <span class="badge badge-open">Open</span>
-            </div>
-            <p class="card-text small text-secondary mb-2">14/09/2025, 9:00 AM • BCEC, Brisbane</p>
-            <p class="card-text">Discussing the cost of living crisis, and it's effects on young Australians.</p>
-            <div class="mt-auto d-flex justify-content-between align-items-center">
-              <div class="d-flex gap-2 flex-wrap">
-                <span class="badge text-bg-light">Lifestyle</span>
-                <span class="badge text-bg-light">Health</span>
-              </div>
-              <a class="btn btn-primary" href="event.html">View details</a>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </main>
+  </div>
+</main>
 {% endblock %}

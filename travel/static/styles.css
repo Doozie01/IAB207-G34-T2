@@ -1,14 +1,19 @@
 /* ---- Global palette and layout helpers ---- */
-:root{
-  --banner:#144c8c;   /* top banner */
-  --chrome:#1c242c;   /* sticky nav + footer */
-  --bg:#d3cebe;       /* page background */
-  --box:#ffffff;      /* white content box */
-  --radius:16px;
+:root {
+  --banner: #144c8c;
+  /* top banner */
+  --chrome: #1c242c;
+  /* sticky nav + footer */
+  --bg: #d3cebe;
+  /* page background */
+  --box: #ffffff;
+  /* white content box */
+  --radius: 16px;
 }
 
-html,body{ 
-  height:100%
+html,
+body {
+  height: 100%
 }
 
 /* Main body of webpages */
@@ -37,33 +42,67 @@ area on the screen.
   margin: 24px auto;
   background: #ffffff;
   border-radius: 16px;
-  box-shadow: 0 8px 24px rgba(0,0,0,.12);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, .12);
   padding: 24px;
 }
+
 @media (max-width: 992px) {
-  .exr-shell { max-width: 92%; }
+  .exr-shell {
+    max-width: 92%;
+  }
 }
 
 /* Brand banner + sticky navbar + footer */
-.exr-banner{background:var(--banner); color:#fff}
-.exr-brand{font-weight:700; letter-spacing:.3px}
-.exr-nav{background:var(--chrome)}
-.exr-footer{background:var(--chrome); color:#fff}
+.exr-banner {
+  background: var(--banner);
+  color: #fff
+}
+
+.exr-brand {
+  font-weight: 700;
+  letter-spacing: .3px
+}
+
+.exr-nav {
+  background: var(--chrome)
+}
+
+.exr-footer {
+  background: var(--chrome);
+  color: #fff
+}
 
 /* Changed status badge colours for Open, Sold Out, Inactive etc... */
-.badge-open{background:#0ea5e9}
-.badge-sold{background:#ef4444}
-.badge-inactive{background:#9ca3af; color:#111}
-.badge-cancel{background:#FFFF00; color:#111}
+.badge-open {
+  background: #0ea5e9
+}
+
+.badge-sold {
+  background: #ef4444
+}
+
+.badge-inactive {
+  background: #9ca3af;
+  color: #111
+}
+
+.badge-cancel {
+  background: #FFFF00;
+  color: #111
+}
 
 /* Keep card images at a consistent height */
-.exr-card-img{height:160px; object-fit:cover}
+.exr-card-img {
+  height: 160px;
+  object-fit: cover
+}
 
 /* changed a bunch of the bootstrap default colours to suit pallet more*/
 .btn-primary {
   background-color: #1c68be;
   border-color: #1c68be;
 }
+
 .btn-primary:hover,
 .btn-primary:focus {
   background-color: #16559c;
@@ -74,25 +113,41 @@ area on the screen.
   background-color: #357040;
   border-color: #357040;
 }
+
 .btn-success:hover,
 .btn-success:focus {
   background-color: #244d2c;
   border-color: #244d2c;
 }
 
-.badge-open{
+.badge-open {
   background-color: #10b12e;
 }
 
 .exr-nav {
-  background-color: #144c8c; 
+  background-color: #144c8c;
 }
 
+
 /* styling for search bar on search page */
-.exr-sticky-search{
-      /* position keeps it below nav bar but above content */
-      position: sticky; top: 0; z-index: 1000; 
-      background: #d3cebe;                       
-      border-bottom: 1px solid rgba(0,0,0,.06);
-      padding: 12px 0;
-    }
+.exr-sticky-search {
+  /* position keeps it below nav bar but above content */
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  background: #d3cebe;
+  border-bottom: 1px solid rgba(0, 0, 0, .06);
+  padding: 12px 0;
+}
+
+/* Event card hover “jump” */
+.event-card {
+  transition: transform .2s ease, box-shadow .2s ease;
+  display: block;
+}
+
+.event-card:hover {
+  transform: translateY(-4px);
+  /* the “jump” */
+  box-shadow: 0 1rem 2rem rgba(0, 0, 0, .15);
+}

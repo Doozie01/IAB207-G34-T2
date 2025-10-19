@@ -1,67 +1,57 @@
 {% extends 'base.html' %}
 {% block content %}
+<div class="container py-4">
+  <h1 class="h3 mb-4">Create an event</h1>
 
-  <!------------------- MAIN PAGE CONTENT ------------------->
+  <form method="POST" enctype="multipart/form-data" action="{{ url_for('main.create_event') }}" novalidate>
+    {{ form.hidden_tag() }}
 
-  <main class="exr-shell">
-    <h1 class="h3">Create an event</h1>
-    <!-- Bootstrap grid form using relevant input types -->
-    <form class="row g-3">
-      <div class="col-md-6">
-        <label class="form-label" for="title">Title</label>
-        <input id="title" class="form-control" placeholder="Event title">
+    <div class="row g-3">
+      <div class="col-md-8">
+        <label class="form-label">{{ form.title.label }}</label>
+        {{ form.title(class="form-control") }}
       </div>
-
-      <!-- Category drop down -->
-      <div class="col-md-6">
-        <label class="form-label" for="category">Category</label>
-        <select id="category" class="form-select">
-          <option>Business</option>
-          <option>Technology</option>
-          <option>Regulation</option>
-          <option>Workshop</option>
-          <option>Art</option>
-          <option>Health</option>
-          <option>Science</option>
-          <option>Lifestyle</option>
-          <option>Other...</option>
-        </select>
+      <div class="col-md-4">
+        <label class="form-label">{{ form.category_id.label }}</label>
+        {{ form.category_id(class="form-select") }}
       </div>
 
-      <!-- Rest of info for event -->
-      <div class="col-md-6">
-        <label class="form-label" for="start">Start</label>
-        <!-- BS inbuilt date/time selector. This thing is sick XD -->
-        <input id="start" type="datetime-local" class="form-control">
-      </div>
-      <div class="col-md-6">
-        <label class="form-label" for="end">End</label>
-        <input id="end" type="datetime-local" class="form-control">
-      </div>
-      <div class="col-md-6">
-        <label class="form-label" for="venue">Venue</label>
-        <input id="venue" class="form-control" placeholder="Location or 'Online'">
-      </div>
-      <div class="col-md-6">
-        <label class="form-label" for="tickets">Tickets available</label>
-        <input id="tickets" type="number" min="0" class="form-control" value="10">
-      </div>
-      <!-- Users can select an image from their computer to use as the banner -->
-      <div class="mb-3">
-        <label for="eventImage" class="form-label">Banner</label>
-        <input class="form-control" type="file" id="eventImage" name="eventImage" accept="image/*">
-        <div class="form-text">Upload an image from your computer.</div>
-      </div>
       <div class="col-12">
-        <label class="form-label" for="desc">Description</label>
-        <textarea id="desc" class="form-control" rows="4" placeholder="Describe the event"></textarea>
+        <label class="form-label">{{ form.description.label }}</label>
+        {{ form.description(class="form-control", rows="5") }}
       </div>
-      <div class="col-12 d-flex gap-2">
-        <a class="btn btn-primary" href="bookings.html">Publish</a> <!-- For now just takes you to the bookings page-->
-        <a class="btn btn-outline-secondary" href="index.html">Cancel</a>
-      </div>
-    </form>
-  </main>
 
+      <div class="col-md-6">
+        <label class="form-label">{{ form.start_at.label }}</label>
+        {{ form.start_at(class="form-control") }}
+      </div>
+      <div class="col-md-6">
+        <label class="form-label">{{ form.end_at.label }}</label>
+        {{ form.end_at(class="form-control") }}
+      </div>
+
+      <div class="col-md-6">
+        <label class="form-label">{{ form.venue.label }}</label>
+        {{ form.venue(class="form-control") }}
+      </div>
+      <div class="col-md-3">
+        <label class="form-label">{{ form.tickets_av.label }}</label>
+        {{ form.tickets_av(class="form-control") }}
+      </div>
+      <div class="col-md-3">
+        <label class="form-label">{{ form.status.label }}</label>
+        {{ form.status(class="form-select") }}
+      </div>
+
+      <div class="col-12">
+        <label class="form-label">{{ form.image.label }} <span class="text-muted small">(URL)</span></label>
+        {{ form.image(class="form-control") }}
+      </div>
+    </div>
+
+    <div class="d-grid d-sm-flex justify-content-end mt-4">
+      {{ form.submit(class="btn btn-primary btn-lg") }}
+    </div>
+  </form>
+</div>
 {% endblock %}
-

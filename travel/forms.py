@@ -1,7 +1,11 @@
 from flask_wtf import FlaskForm
-from wtforms.fields import (TextAreaField, SubmitField, StringField, PasswordField, EmailField,TelField, FormField, SelectField, IntegerField)
+from wtforms.fields import (TextAreaField, BooleanField, DateTimeLocalField, SubmitField, StringField, PasswordField, EmailField,TelField, FormField, SelectField, IntegerField)
 from wtforms.validators import InputRequired, Email, EqualTo, Length, NumberRange
+from .models import Category
+from flask_wtf.file import FileField, FileAllowed
 
+
+# ----- REGISTER / LOGIN FORMS ------- #
 # ----- Subforms (CSRF disabled) ----- #
 
 class NameForm(FlaskForm):
@@ -23,6 +27,7 @@ class AddressForm(FlaskForm):
 class LoginForm(FlaskForm):
     email = EmailField("Email", validators=[InputRequired('Enter Email')])
     password = PasswordField("Password", validators=[InputRequired('Enter Password')])
+    remember = BooleanField('Remember Me')
     submit = SubmitField("Login")
 
 class RegisterForm(FlaskForm):
@@ -33,3 +38,20 @@ class RegisterForm(FlaskForm):
     password = PasswordField("Password", validators=[InputRequired(), EqualTo('confirm', message="Passwords do not match")])
     confirm  = PasswordField("Confirm Password")
     submit   = SubmitField("Register")
+
+# ----- CREATE EVENT FORMS ------ #
+
+class CreateEventForm(FlaskForm):
+    title = StringField("Title", validators=[InputRequired(), Length(max=200)])
+    description = TextAreaField("Description", validators=[InputRequired(), Length(max=5000)])
+    image = FileField("Event Image", validators=[FileAllowed(['jpg', 'png', 'jpeg', 'gif'], 'Images only!')])
+    start_at = DateTimeLocalField("Starts", format="%Y-%m-%dT%H:%M", validators=[InputRequired()])
+    end_at   = DateTimeLocalField("Ends",   format="%Y-%m-%dT%H:%M", validators=[InputRequired()])
+    venue = StringField("Venue", validators=[InputRequired(), Length(max=150)])
+    status = SelectField("Status", choices=[("Open","Open"),("Inactive","Inactive"),("Cancelled","Cancelled")])
+    tickets_av = IntegerField("Tickets Available", validators=[NumberRange(min=0)])
+    category_id = SelectField("Category", coerce=int, validators=[InputRequired()])
+    submit = SubmitField("Create")
+
+    def set_category_choices(self):
+        self.category_id.choices = [(c.id, c.name) for c in Category.query.order_by(Category.name).all()]
