@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="utf-8">
   <title>{% block title %}Expert Relay Home{% endblock %}</title>
@@ -15,6 +16,7 @@
 </head>
 
 <!-- Banner and Navigation Bar -->
+
 <body>
   <nav class="navbar navbar-expand-md navbar-dark exr-nav sticky-top">
     <div class="container" style="max-width: 50%;">
@@ -23,16 +25,18 @@
       </a>
 
       <!-- Toggler for if in mobile mode -->
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#exrNav" aria-controls="exrNav" aria-expanded="false" aria-label="Toggle navigation">
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#exrNav"
+        aria-controls="exrNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
 
       <!-- Nav links + actions -->
       <div id="exrNav" class="collapse navbar-collapse">
         <ul class="navbar-nav me-auto">
-          <li class="nav-item"><a class="nav-link {% if active_page== 'index' %}active{% endif %}" href="{{ url_for('main.index') }}"><i class="bi bi-house-fill me-1"></i> Home</a></li>
-          <li class="nav-item"><a class="nav-link {% if active_page== 'create-event' %}active{% endif %}" href="{{ url_for('main.create_event') }}"><i class="bi bi-plus-circle me-1"></i> Create Event</a></li>
-          <li class="nav-item"><a class="nav-link {% if active_page== 'bookings' %}active{% endif %}" href="{{ url_for('main.bookings') }}"><i class="bi bi-ticket-perforated me-1"></i> My Events</a></li>
+          <li class="nav-item"><a class="nav-link {% if active_page== 'index' %}active{% endif %}"
+              href="{{ url_for('main.index') }}"><i class="bi bi-house-fill me-1"></i> Home</a></li>
+          <li class="nav-item"><a class="nav-link {% if active_page== 'create-event' %}active{% endif %}"
+              href="{{ url_for('main.create_event') }}"><i class="bi bi-plus-circle me-1"></i> Create Event</a></li>
         </ul>
 
         <!-- Actions (right side) -->
@@ -41,10 +45,11 @@
             <i class="bi bi-search"></i>
           </a>
           <div class="dropdown ms-2">
-            <button class="btn btn-outline-light dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <button class="btn btn-outline-light dropdown-toggle" type="button" data-bs-toggle="dropdown"
+              aria-expanded="false">
               <i class="bi bi-person-circle"></i>
             </button>
-          {% if current_user.is_authenticated %}
+            {% if current_user.is_authenticated %}
             <ul class="dropdown-menu dropdown-menu-end">
               <li><a class="dropdown-item" href="#">My Profile</a></li>
               <li><a class="dropdown-item" href="#">Create Event</a></li>
@@ -55,7 +60,7 @@
               <li><a class="dropdown-item" href="{{ url_for('auth.login') }}">Log in</a></li>
               <li><a class="dropdown-item" href="{{ url_for('auth.register') }}">Create account</a></li>
             </ul>
-          {% endif %}
+            {% endif %}
           </div>
         </div>
       </div>
@@ -64,17 +69,19 @@
 
   <!------------------- MAIN PAGE CONTENT ------------------->
 
-{% block content %}
+  {% block content %}
 
-{% endblock %}
+  {% endblock %}
 
   <!-- Footer -->
   <footer class="bg-dark text-center text-white-50 mt-auto py-4">
     <ul class="nav justify-content-center border-bottom pb-3 mb-3">
       <li class="nav-item"><a href="{{ url_for('main.index') }}" class="nav-link px-2 text-white">Home</a></li>
       <li class="nav-item"><a href="{{ url_for('main.search') }}" class="nav-link px-2 text-white">Search</a></li>
-      <li class="nav-item"><a href="{{ url_for('main.create_event') }}" class="nav-link px-2 text-white">Create Events</a></li>
-      <li class="nav-item"><a href="{{ url_for('main.bookings') }}" class="nav-link px-2 text-white">My Bookings</a></li>
+      <li class="nav-item"><a href="{{ url_for('main.create_event') }}" class="nav-link px-2 text-white">Create
+          Events</a></li>
+      <li class="nav-item"><a href="{{ url_for('main.bookings') }}" class="nav-link px-2 text-white">My Bookings</a>
+      </li>
       <li class="nav-item"><a href="#" class="nav-link px-2 text-white">FAQ</a></li>
       <li class="nav-item"><a href="#" class="nav-link px-2 text-white">About</a></li>
     </ul>
@@ -82,4 +89,5 @@
   </footer>
 
 </body>
+
 </html>
