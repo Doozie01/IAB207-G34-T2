@@ -71,13 +71,6 @@ def create_event():
     return render_template("create-event.html", form=form, active_page="create-event")
 
 @bp.route('/bookings')
+@login_required
 def bookings():
     return render_template('bookings.html', active_page="bookings")
-
-# @bp.route('/login')
-# def login():
-#     return render_template('login.html', active_page="login")
-
-# @bp.route('/register')
-# def register():
-#     return render_template('register.html', active_page="register")

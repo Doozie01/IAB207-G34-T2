@@ -12,9 +12,11 @@ authbp = Blueprint('auth', __name__)
 def login():
     loginForm = LoginForm()
     error=None
+
     if loginForm.validate_on_submit():
         email = loginForm.email.data
         password = loginForm.password.data
+        remember = loginForm.remember.data
         u1 = User.query.filter_by(emailid=email).first()
 
         if u1 is None:
@@ -22,35 +24,34 @@ def login():
         elif not check_password_hash(u1.password_hash, password):
             error = 'Incorrect Password'
         else:
-            login_user(u1)
+            login_user(u1, remember=remember)
             return redirect(url_for('main.index'))
 
         if error is None:
             login_user(u1)
-            return redirect(url_for('auth.login'))
+            return redirect(url_for('main.index'))
         else:
             print(error)
             flash(error)
-        return render_template('user.html', form=loginForm, heading='Login')
 
-        login_user(user)
-        print('Successfully Logged In')
-        flash('You Logged in Successfully')
-        next = flask.request.args.get('next')
-        if not url_has_allowed_host_and_scheme(next, request.host):
-            return abort(400)
-        return redirect(next or url_for('auth.login'))
-    return render_template('user.html', form=loginForm, heading='Login')
+        pass
+    return render_template('user.html', form=loginForm, heading='Login', mode='login')
 
 @authbp.route('/register', methods=['GET', 'POST'])
 def register():
-    form = RegisterForm()
-    if form.validate_on_submit():
-        name = form.name.data                          
-        tel = form.number.data
-        pwd = form.password.data
-        email = form.email.data
-        address = form.address.data                    
+    registerForm = RegisterForm()
+    
+    if registerForm.validate_on_submit():
+        name = registerForm.name.data                          
+        tel = registerForm.number.data
+        pwd = registerForm.password.data
+        email = registerForm.email.data
+        address = registerForm.address.data
+
+        existing_user = User.query.filter_by(emailid=email).first()
+        if existing_user:
+            flash('Email already registered. Please log in.')
+            return redirect(url_for('auth.login'))          
 
         pwd_hash = generate_password_hash(pwd)
         new_user = User(
@@ -67,16 +68,16 @@ def register():
         return redirect(url_for('auth.login'))
 
     # Debug in terminal
-    if request.method == 'POST' and not form.validate():
-        print('Register errors:', form.errors)
+    if request.method == 'POST' and not registerForm.validate():
+        print('Register errors:', registerForm.errors)
         flash('Please fix the errors below.', 'error')
 
-    return render_template('register.html', form=form, heading='Create an Account')
+        pass
+    return render_template('user.html', form=registerForm, heading='Create an Account', mode='register')
 
 
 @authbp.route('/logout')
 @login_required
 def logout():
     logout_user()
-    flash("You’ve been logged out successfully.", "info")
     return redirect(url_for('main.index'))

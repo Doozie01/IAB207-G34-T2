@@ -24,6 +24,8 @@ def create_app():
     login_manager.login_view = 'auth.login'
     Bootstrap5(app)
 
+    from . import models
+
     from .views import bp as main_bp
     app.register_blueprint(main_bp)
 
