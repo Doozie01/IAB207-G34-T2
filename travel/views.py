@@ -27,6 +27,19 @@ def index():
 def search():
     return render_template('search.html', active_page="search")
 
+@bp.route('/profle', methods=['GET','POST'])
+@login_required
+def profile():
+    if request.method =="POST":
+        current_user.name=request.form.get("name")
+        current_user.emailid=request.form.get("email")
+        current_user.phone=request.form.get("phone")
+        current_user.address=request.form.get("address")
+        db.session.commit()
+        flash("Profile updated successfully!","success")
+        return redirect(url_for("main.profile"))
+    return render_template('profile.html', user=current_user, active_page="profile")
+
 @bp.route('/event/<int:event_id>', methods=['GET','POST'])
 def event_detail(event_id):
     from .models import Event
