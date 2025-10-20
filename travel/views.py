@@ -28,7 +28,7 @@ def index():
 @bp.route('/search')
 def search():
     qtext = request.args.get('q','', type=str)
-    cat_id = request.args.get('cat','', type=int)
+    cat_id = request.args.get('cat',type=int)
 
     query =db.session.query(Event).outerjoin(Category)
 
