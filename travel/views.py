@@ -4,6 +4,8 @@ from .models import Event, Comment, Category
 from . import db
 from .forms import CreateEventForm
 from werkzeug.utils import secure_filename
+from sqlalchemy import or_
+from datetime import datetime
 import os
 
 bp = Blueprint('main', __name__)
@@ -25,7 +27,38 @@ def index():
 
 @bp.route('/search')
 def search():
-    return render_template('search.html', active_page="search")
+    qtext = request.args.get('q','', type=str)
+    cat_id = request.args.get('cat','', type=int)
+
+    query =db.session.query(Event).outerjoin(Category)
+
+    if qtext:
+        like = f"%{qtext.strip()}%"
+        query = query.filter(or_(
+            Event.title.ilike(like),
+            Event.description.ilike(like),
+            Event.venue.ilike(like),
+            Category.name.ilike(like),
+        ))
+
+    if cat_id:
+        query = query.filter(Event.category_id == cat_id)
+    
+    events = query.order_by(Event.start_at.asc()).all()
+
+    categories = Category.query.order_by(Category.name.asc()).all()
+    active_category = Category.query.get(cat_id) if cat_id else None
+
+    return render_template(
+        'search.html',
+        q=qtext,
+        event=events,
+        categories=categories,
+        active_category=active_category,
+        results_count=len(events),
+        active_page="search"
+        )
+
 
 @bp.route('/profle', methods=['GET','POST'])
 @login_required
