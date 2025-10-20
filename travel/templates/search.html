@@ -8,7 +8,7 @@
       <input class="form-control me-2" type="search" name="q" placeholder="Search events" value="{{ q or '' }}">
       {% if active_category %}
         <input type="hidden" name="cat" value="{{ active_category.id }}">
-      {% end if %}
+      {% endif %}
       <button class="btn btn-primary" type="submit">Search</button>
     </form>
 
