@@ -37,7 +37,7 @@
               <div class="card-body">
                 <h5 class="card-title mb-1"> {{ e.title}} </h5>
                 <p class="text text-muted small mb-1">
-                  {{ e.start_strftime('%d/%m/%Y, %I:%M %p') if e.start_at }}
+                  {{ e.start_at.strftime('%d/%m/%Y, %I:%M %p') if e.start_at }}
                   {% if e.venue %} · {{ e.venue }} {% endif %}
                 </p>
                 <p class="card-text text-muted">
