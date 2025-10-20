@@ -30,7 +30,7 @@
             <div class="card h-100 shadow">
               {% if e.image %}
               <img class="card-img-top"
-                scr="{{ url_for('static', filename='uploads/' ~ e.image) }}"
+                src="{{ url_for('static', filename='uploads/' ~ e.image) }}"
                 style="height:200px;object-fit:cover"
                 alt="{{ e.title }}">
               {% endif %}
