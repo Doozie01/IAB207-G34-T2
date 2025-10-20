@@ -23,9 +23,9 @@
     </p>
 
     <!--Results Grid-->
-    <div class="row g-4">
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
       {% for e in events %}
-        <div class="col-12 col-md-6 col-lg-4">
+        <div class="col">
           <a class="text-decoration-none" href="{{ url_for('main.event_detail', event_id=e.id)}}">
             <div class="card h-100 shadow">
               {% if e.image %}
@@ -57,7 +57,7 @@
         </div>
       {% else %}
       <div class='col-12'>
-        <div class=" alert alert-warning">No matching events.</div>
+        <div class=" alert alert-warning text-center mb-0">No matching events.</div>
       <div>
       {% endfor %}
     <div>
