@@ -4,7 +4,7 @@
   <main class="container my-4">
     
     <!--Top search form-->
-    <form class="d-flex mb-3" action="{{ url_for('main.search') }}" methord="get" role="search">
+    <form class="d-flex mb-3" action="{{ url_for('main.search') }}" method="get" role="search">
       <input class="form-control me-2" type="search" name="q" placeholder="Search events" value="{{ q or '' }}">
       {% if active_category %}
         <input type="hidden" name="cat" value="{{ active_category.id }}">
@@ -61,7 +61,7 @@
       <div>
       {% endfor %}
     <div>
-  
+
   </main>
 
 {% endblock %}
