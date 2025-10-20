@@ -1,166 +1,65 @@
 {% extends 'base.html' %}
 {% block content %}
 
-<!------------------- MAIN PAGE CONTENT ------------------->
+  <main class="container my-4">
+    
+    <!--Top search form-->
+    <form class="d-flex mb-3" action="{{ url_for('main.search') }}" methord="get" role="search">
+      <input class="form-control me-2" type="search" name="q" placeholder="Search events" value="{{ q or '' }}">
+      {% if active_category %}
+        <input type="hidden" name="cat" value="{{ active_category.id }}">
+      {% end if %}
+      <button class="btn btn-primary" type="submit">Search</button>
+    </form>
 
-  <main class="flex-grow-1">
-    <!-- Sticky search bar (stays at top while results scroll) -->
-    <div class="exr-sticky-search">
-      <div class="exr-shell py-3" style="box-shadow:none; background:#fff; margin-top:12px; margin-bottom:12px;">
-        <div class="row g-2 align-items-center">
-          <!-- Search input -->
-          <div class="col-12 col-md">
-            <form role="search">
-              <div class="input-group">
-                <span class="input-group-text"><i class="bi bi-search"></i></span>
-                <input type="search" class="form-control form-control-lg" placeholder="Search events" aria-label="Search events">
-                <button class="btn btn-primary" type="submit">Search</button>
-              </div>
-            </form>
-          </div>
-          <!-- Filters button on the right -->
-          <div class="col-12 col-md-auto text-md-end">
-            <button class="btn btn-outline-secondary">
-              <i class="bi bi-sliders me-1"></i> Filters
-            </button>
-          </div>
+    <!--Results heading/ Summary line-->
+    <h1 class="h4">Search Results</h1>
+    <p class="text-muted">
+      {% if q %} for <strong>{{ q }}</strong> {% endif %}
+      {% active_category %} in <strong>{{ active_category.name }}</strong> {% endif %}
+      - {{ results_count }} result{{ '' if results_count == 1 else 's'}}.
+    </p>
+
+    <!--Results Grid-->
+    <div class="row g-4">
+      {% for e in events %}
+        <div class="col-12 col-md-6 col-lg-4">
+          <a class="text-decoration-none" href="{{ url_for('main.event_detail', event_id=e.id)}}">
+            <div class="card h-100 shadow">
+              {% if e.image %}
+              <img class="card-img-top"
+                scr="{{ url_for('static', filename='uploads/' ~ e.image) }}"
+                style="height:200px;object-fit:cover"
+                alt="{{ e.title }}">
+              {% end if %}
+              <div class="card-body">
+                <h5 class="card-title mb-1"> {{ e.title}} </h5>
+                <p class="text text-muted small mb-1">
+                  {{ e.start_strftime('%d/%m/%Y, %I:%M %p') if e.start_at }}
+                  {% if e.venue %} · {{ e.venue }} {% endif %}
+                </p>
+                <p class="card-text text-muted">
+                  {% if e.description %}
+                    {{ e.description[:120] }}{% if e.description|length > 120 %}...{% endif %}
+                  {% endif %}
+                </p>
+              <div>
+              <div class="card-footer bg-white d-flex justify-content-between">
+                <span class="badge bg-secondary">{{ e.status }}</span>
+                {% if e.tickets_av is not none %}
+                  <span class=" badge bg-success">{{ e.tickets_av }} tickets</span>
+                {% endif %}
+              </div> 
+            </div>
+          </a>
         </div>
-      </div>
-    </div>
-
-    <!-- Results panel -->
-    <section class="exr-shell">
-      <h1 class="h3 mb-2">Search Results</h1>
-
-    <!-- Example events -->
-    <div class="row g-3">
-      <!-- Event 1 -->
-      <div class="col-12 col-md-6 col-lg-4">
-        <div class="card h-100">
-          <img class="card-img-top exr-card-img" src="Static/HowToBootstrap.png" alt="">
-          <div class="card-body d-flex flex-column">
-            <div class="d-flex justify-content-between align-items-start">
-              <h5 class="card-title mb-1">How to use Bootstrap for dynamic websites! - Tutorial</h5>
-              <span class="badge badge-open">Open</span>
-            </div>
-            <p class="card-text small text-secondary mb-2">03/09/2025, 9:00 AM • QUT Gardens Point, Brisbane</p>
-            <p class="card-text">Tutorial on how to use bootstrap elements to make your websites pop!</p>
-            <div class="mt-auto d-flex justify-content-between align-items-center">
-              <span class="badge text-bg-light">Technology</span>
-              <!-- Link to the single example details page -->
-              <a class="btn btn-primary" href="event.html">View details</a>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Event 2 -->
-      <div class="col-12 col-md-6 col-lg-4">
-        <div class="card h-100">
-          <img class="card-img-top exr-card-img" src="Static/MarketingYourWebsite.png" alt="">
-          <div class="card-body d-flex flex-column">
-            <div class="d-flex justify-content-between align-items-start">
-              <h5 class="card-title mb-1">Marketing yourself through your website</h5>
-              <span class="badge badge-inactive">Inactive</span>
-            </div>
-            <p class="card-text small text-secondary mb-2">09/05/2025, 1:00 PM • QUT Kelvin Grove, Brisbane</p>
-            <p class="card-text">Hands-on workshop to identify methods of marketing your website.</p>
-            <div class="mt-auto d-flex justify-content-between align-items-center">
-              <div class="d-flex gap-2 flex-wrap">
-                <span class="badge text-bg-light">Business</span>
-                <span class="badge text-bg-light">Marketing</span>
-              </div>
-              <a class="btn btn-primary" href="event.html">View details</a>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Event 3 -->
-      <div class="col-12 col-md-6 col-lg-4">
-        <div class="card h-100">
-          <img class="card-img-top exr-card-img" src="Static/UMLDiagram.png" alt="">
-          <div class="card-body d-flex flex-column">
-            <div class="d-flex justify-content-between align-items-start">
-              <h5 class="card-title mb-1">UML and ERD Diagram Practice</h5>
-              <span class="badge badge-sold">Sold Out</span>
-            </div>
-            <p class="card-text small text-secondary mb-2">03/09/2025, 10:00 AM • Online</p>
-            <p class="card-text">An online tutorial to strengthen your UML and ERD model making.</p>
-            <div class="mt-auto d-flex justify-content-between align-items-center">
-              <div class="d-flex gap-2 flex-wrap">
-                <span class="badge text-bg-light">Business</span>
-                <span class="badge text-bg-light">Technology</span>
-              </div>
-              <a class="btn btn-primary" href="event.html">View details</a>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Event 4 -->
-      <div class="col-12 col-md-6 col-lg-4">
-        <div class="card h-100">
-          <img class="card-img-top exr-card-img" src="Static/VideoEditing.jpg" alt="">
-          <div class="card-body d-flex flex-column">
-            <div class="d-flex justify-content-between align-items-start">
-              <h5 class="card-title mb-1">Video Editting 101</h5>
-              <span class="badge badge-open">Open</span>
-            </div>
-            <p class="card-text small text-secondary mb-2">09/09/2025, 1:00 PM • Online</p>
-            <p class="card-text">Online workshop showing you how to professionally edit videos.</p>
-            <div class="mt-auto d-flex justify-content-between align-items-center">
-              <div class="d-flex gap-2 flex-wrap">
-                <span class="badge text-bg-light">Art</span>
-                <span class="badge text-bg-light">Technology</span>
-              </div>
-              <a class="btn btn-primary" href="event.html">View details</a>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Event 5 -->
-      <div class="col-12 col-md-6 col-lg-4">
-        <div class="card h-100">
-          <img class="card-img-top exr-card-img" src="Static/MicrobiologyFood.jpg" alt="">
-          <div class="card-body d-flex flex-column">
-            <div class="d-flex justify-content-between align-items-start">
-              <h5 class="card-title mb-1">Anti-microbial agents in Australia's Food Testing</h5>
-              <span class="badge badge-sold">Sold Out</span>
-            </div>
-            <p class="card-text small text-secondary mb-2">05/09/2025, All Day • MNAQ QLD, Brisbane</p>
-            <p class="card-text">Industry workshop discussing the use of anti-microbial agents in testing Australia's food supply.</p>
-            <div class="mt-auto d-flex justify-content-between align-items-center">
-              <span class="badge text-bg-light">Science</span>
-              <a class="btn btn-primary" href="event.html">View details</a>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Event 6 -->
-      <div class="col-12 col-md-6 col-lg-4">
-        <div class="card h-100">
-          <img class="card-img-top exr-card-img" src="Static/CostOfLiving.jpg" alt="">
-          <div class="card-body d-flex flex-column">
-            <div class="d-flex justify-content-between align-items-start">
-              <h5 class="card-title mb-1">The cost of living crisis and young Aussies</h5>
-              <span class="badge badge-open">Open</span>
-            </div>
-            <p class="card-text small text-secondary mb-2">14/09/2025, 9:00 AM • BCEC, Brisbane</p>
-            <p class="card-text">Discussing the cost of living crisis, and it's effects on young Australians.</p>
-            <div class="mt-auto d-flex justify-content-between align-items-center">
-              <div class="d-flex gap-2 flex-wrap">
-                <span class="badge text-bg-light">Lifestyle</span>
-                <span class="badge text-bg-light">Health</span>
-              </div>
-              <a class="btn btn-primary" href="event.html">View details</a>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+      {% else %}
+      <div class='col-12'>
+        <div class=" alert alert-warning">No matching events.</div>
+      <div>
+      {% endfor %}
+    <div>
+  
   </main>
 
 {% endblock %}
