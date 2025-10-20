@@ -31,7 +31,7 @@
                 scr="{{ url_for('static', filename='uploads/' ~ e.image) }}"
                 style="height:200px;object-fit:cover"
                 alt="{{ e.title }}">
-              {% end if %}
+              {% endif %}
               <div class="card-body">
                 <h5 class="card-title mb-1"> {{ e.title}} </h5>
                 <p class="text text-muted small mb-1">
