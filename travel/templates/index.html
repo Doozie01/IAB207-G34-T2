@@ -7,9 +7,9 @@
     <h1 class="h3 fw-bold mb-2">Welcome to ExpertRelay!</h1>
     <p class="lead mb-4">Find and create events, and connect with industry professionals</p>
 
-    <form class="hero-search" action="{{ url_for('main.index') }}" method="get">
+    <form class="hero-search" action="{{ url_for('main.search') }}" method="get">
       <div class="input-group input-group-lg">
-        <input type="text" name="q" class="form-control" placeholder="Search for events">
+        <input type="text" name="q" class="form-control" placeholder="Search for events" value="{{ request.args.get('q', '') }}">
         <button class="btn btn-primary" type="submit">Search</button>
       </div>
     </form>
