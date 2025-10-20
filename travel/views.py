@@ -52,7 +52,7 @@ def search():
     return render_template(
         'search.html',
         q=qtext,
-        event=events,
+        events=events,
         categories=categories,
         active_category=active_category,
         results_count=len(events),
