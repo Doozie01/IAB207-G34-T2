@@ -33,7 +33,7 @@ def seed():
     # 3) events — a few per category
     now = datetime.now()
     def add_event(title, desc, cat_name, days_from_now, hrs=2, venue="QUT Gardens Point",
-                  status="Open", tickets=50, img=None):
+                  price = 60, status="Open", tickets=50, img=None):
         start = now + timedelta(days=days_from_now)
         end   = start + timedelta(hours=hrs)
         exists = Event.query.filter_by(title=title).first()
@@ -46,6 +46,7 @@ def seed():
             start_at=start,
             end_at=end,
             venue=venue,
+            price=price,
             status=status,
             tickets_av=tickets,
             user_id=demo.id,
@@ -71,7 +72,7 @@ def seed():
 
     add_event("Beginner’s Watercolour",
               "A relaxing intro to watercolour techniques.",
-              "Art", 14)
+              "Art", 14, price=30)
 
     db.session.commit()
     return {"user": demo.emailid, "categories": len(cats), "done": True}

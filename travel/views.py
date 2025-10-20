@@ -89,6 +89,7 @@ def create_event():
             start_at=form.start_at.data,
             end_at=form.end_at.data,
             venue=form.venue.data,
+            price=form.price.data,
             status=form.status.data,
             tickets_av=form.tickets_av.data or 0,
             user_id=current_user.id,

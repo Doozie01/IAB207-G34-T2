@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms.fields import (TextAreaField, BooleanField, DateTimeLocalField, SubmitField, StringField, PasswordField, EmailField,TelField, FormField, SelectField, IntegerField)
+from wtforms.fields import (TextAreaField, BooleanField, DateTimeLocalField, SubmitField, StringField, PasswordField, EmailField,TelField, FormField, SelectField, IntegerField, DecimalField)
 from wtforms.validators import InputRequired, Email, EqualTo, Length, NumberRange
 from .models import Category
 from flask_wtf.file import FileField, FileAllowed
@@ -48,6 +48,7 @@ class CreateEventForm(FlaskForm):
     start_at = DateTimeLocalField("Starts", format="%Y-%m-%dT%H:%M", validators=[InputRequired()])
     end_at   = DateTimeLocalField("Ends",   format="%Y-%m-%dT%H:%M", validators=[InputRequired()])
     venue = StringField("Venue", validators=[InputRequired(), Length(max=150)])
+    price = DecimalField("Price (AU$)", validators=[InputRequired(), NumberRange(min=0, message="Price must be above 0$")])
     status = SelectField("Status", choices=[("Open","Open"),("Inactive","Inactive"),("Cancelled","Cancelled")])
     tickets_av = IntegerField("Tickets Available", validators=[NumberRange(min=0)])
     category_id = SelectField("Category", coerce=int, validators=[InputRequired()])

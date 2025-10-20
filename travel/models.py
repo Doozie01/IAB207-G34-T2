@@ -34,6 +34,7 @@ class Event(db.Model):
     start_at = db.Column(db.DateTime, nullable=False)
     end_at = db.Column(db.DateTime, nullable=False)
     venue = db.Column(db.String(200), nullable=False)
+    price = db.Column(db.Numeric, nullable=False)
     status = db.Column(db.String(20), nullable=False)
     tickets_av = db.Column(db.Integer, nullable=False)
 
@@ -72,6 +73,7 @@ class Order(db.Model):
     __tablename__ = 'orders'
     id = db.Column(db.Integer, primary_key=True)
     quantity = db.Column(db.Integer, nullable=False)
+    total_amount = db.Column(db.Numeric, nullable=False)
     created_at = db.Column(db.DateTime, default=datetime.now)
 
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))

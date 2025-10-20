@@ -80,7 +80,7 @@ def create_app():
         # events
         now = datetime.now()
         def add_event(title, desc, cat, days, venue="QUT Gardens Point",
-                      status="Open", tickets=50, img=None):
+                      price = 60, status="Open", tickets=50, img=None):
             if Event.query.filter_by(title=title).first():
                 return
             start = now + timedelta(days=days)
@@ -92,6 +92,7 @@ def create_app():
                 start_at=start,
                 end_at=end,
                 venue=venue,
+                price=price,
                 status=status,
                 tickets_av=tickets,
                 user_id=user.id,
@@ -102,7 +103,7 @@ def create_app():
         add_event("Intro to Bootstrap", "Learn Bootstrap 5 in Flask!", "Technology", 3, img="HowToBootstrap.png")
         add_event("Marketing Yourself", "Portfolio marketing strategies.", "Marketing", 6, venue="QUT Kelvin Grove", img="MarketingYourWebsite.png")
         add_event("UML & ERD Practice", "Hands-on diagramming.", "Science", 10, status="Cancelled", img="UMLDiagram.png")
-        add_event("Video Editting 101", "Easy tutorial for how to edit videos.", "Art", 14, img="VideoEditing.jpg")
+        add_event("Video Editting 101", "Easy tutorial for how to edit videos.", "Art", 14, price = 30.3, img="VideoEditing.jpg")
 
         db.session.commit()
         print("Database seeded.")
