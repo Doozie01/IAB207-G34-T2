@@ -16,8 +16,10 @@
     <h1 class="h4">Search Results</h1>
     <p class="text-muted">
       {% if q %} for <strong>{{ q }}</strong> {% endif %}
-      {% active_category %} in <strong>{{ active_category.name }}</strong> {% endif %}
-      - {{ results_count }} result{{ '' if results_count == 1 else 's'}}.
+      {% if active_category %} in <strong>{{ active_category.name }}</strong> {% endif %}
+      {% if results_count is defined %}
+        {{ results_count }} result{{ 's' if results_count != 1 else ''}}
+      {% endif %}
     </p>
 
     <!--Results Grid-->
