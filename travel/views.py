@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, url_for, request, session, redirect, flash, current_app
 from flask_login import login_required, current_user
-from .models import Event, Category
+from .models import Event, Comment, Category
 from . import db
 from .forms import CreateEventForm
 from werkzeug.utils import secure_filename
@@ -27,9 +27,29 @@ def index():
 def search():
     return render_template('search.html', active_page="search")
 
-@bp.route('/event')
-def event():
-    return render_template('event.html', active_page="event")
+@bp.route('/event/<int:event_id>', methods=['GET','POST'])
+def event_detail(event_id):
+    from .models import Event
+    event = Event.query.get_or_404(event_id)
+    comments = Comment.query.filter_by(event_id=event_id).order_by(Comment.posted_at.desc()).all()
+
+    # Handle comment submission
+    if request.method == 'POST':
+        if not current_user.is_authenticated:
+            return redirect(url_for('auth.login'))
+
+        text = request.form.get('comment')
+        if text:
+            new_comment = Comment(
+                text=text,
+                user_id=current_user.id,
+                event_id=event_id
+            )
+            db.session.add(new_comment)
+            db.session.commit()
+            return redirect(url_for('main.event_detail', event_id=event_id))
+        
+    return render_template('event.html', event=event, comments=comments, active_page="event")
     
 @bp.route('/create-event', methods=['GET','POST'])
 @login_required
@@ -74,3 +94,4 @@ def create_event():
 @login_required
 def bookings():
     return render_template('bookings.html', active_page="bookings")
+
