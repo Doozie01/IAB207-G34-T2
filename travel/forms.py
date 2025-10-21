@@ -3,7 +3,7 @@ from wtforms.fields import (TextAreaField, BooleanField, DateTimeLocalField, Sub
 from wtforms.validators import InputRequired, Email, EqualTo, Length, NumberRange
 from .models import Category
 from flask_wtf.file import FileField, FileAllowed
-
+from decimal import ROUND_HALF_UP
 
 # ----- REGISTER / LOGIN FORMS ------- #
 # ----- Subforms (CSRF disabled) ----- #
@@ -48,7 +48,7 @@ class CreateEventForm(FlaskForm):
     start_at = DateTimeLocalField("Starts", format="%Y-%m-%dT%H:%M", validators=[InputRequired()])
     end_at   = DateTimeLocalField("Ends",   format="%Y-%m-%dT%H:%M", validators=[InputRequired()])
     venue = StringField("Venue", validators=[InputRequired(), Length(max=150)])
-    price = DecimalField("Price (AU$)", validators=[InputRequired(), NumberRange(min=0, message="Price must be above 0$")])
+    price = DecimalField("Price (AU$)", places=2, rounding=ROUND_HALF_UP, validators=[InputRequired(), NumberRange(min=0.01, message="Price must be above 0$")])
     status = SelectField("Status", choices=[("Open","Open"),("Inactive","Inactive"),("Cancelled","Cancelled")])
     tickets_av = IntegerField("Tickets Available", validators=[NumberRange(min=0)])
     category_id = SelectField("Category", coerce=int, validators=[InputRequired()])
