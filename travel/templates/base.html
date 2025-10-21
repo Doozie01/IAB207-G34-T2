@@ -51,6 +51,7 @@
             {% if current_user.is_authenticated %}
             <ul class="dropdown-menu dropdown-menu-end">
               <li><a class="dropdown-item" href="{{ url_for('main.profile') }}">My Profile</a></li>
+              <li><a class="dropdown-item" href="{{ url_for('main.bookings') }}">My Bookings</a></li>
               <li><a class="dropdown-item" href="{{ url_for('auth.logout') }}">Log Out</a></li>
             </ul>
             {% else %}

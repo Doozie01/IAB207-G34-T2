@@ -9,7 +9,8 @@
 
     <form class="hero-search" action="{{ url_for('main.search') }}" method="get">
       <div class="input-group input-group-lg">
-        <input type="text" name="q" class="form-control" placeholder="Search for events" value="{{ request.args.get('q', '') }}">
+        <input type="text" name="q" class="form-control" placeholder="Search for events"
+          value="{{ request.args.get('q', '') }}">
         <button class="btn btn-primary" type="submit">Search</button>
       </div>
     </form>
@@ -47,7 +48,8 @@
           {% for e in events %}
           <div class="col-12 col-sm-6 col-lg-4">
             <!-- Event Title -->
-            <a class="event-card card h-100 shadow-sm text-decoration-none" href="{{ url_for('main.event_detail', event_id=e.id) }}">
+            <a class="event-card card h-100 shadow-sm text-decoration-none"
+              href="{{ url_for('main.event_detail', event_id=e.id) }}">
               {% if e.image %}
               <!-- Event heero image -->
               <img src="{{ url_for('static', filename='uploads/' + e.image) }}" alt="{{ e.title }}"
