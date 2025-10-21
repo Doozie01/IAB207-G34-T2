@@ -49,6 +49,9 @@
           <input type="text" readonly class="form-control-plaintext" value="Available: {{ event.tickets_av }}">
         </div>
         <div class="col-auto">
+          <input type="text" readonly class="form-control-plaintext" value="Price per ticket: {{ '%0.2f'|format(event.price|float) }} A$">
+        </div>
+        <div class="col-auto">
           <button type="submit" class="btn btn-primary">Book now</button>
         </div>
       </div>

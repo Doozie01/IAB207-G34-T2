@@ -70,6 +70,7 @@
                 {% if e.tickets_av and e.tickets_av>0 %}
                 <span class="badge bg-success ms-2">{{ e.tickets_av }} tickets</span>
                 {% endif %}
+                <span class="badge bg-secondary">{{ '%0.2f'|format(e.price|float) }} A$</span>
               </div>
             </a>
           </div>
