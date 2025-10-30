@@ -2,38 +2,34 @@
 {% block content %}
 
 <!--Dashboard-->
-<div class="container">
-    <div class="account-container">
-        <div class="row">
-            <div class="col-md-3 bg-primary text-white p-4 rounded-start-3">
-                <div class="text-center mb-4">
-                    <i class="bi bi-person-circle" style="font-size: 3rem;"></i>
-                    <h5 class="mt-3">{{ user.name or 'Unnamed User' }}</h5>
-                </div>
-                <!-- Pages -->
-                <ul class="nav flex-column">
-                    <li class="nav-item"><a class="nav-link text-white" href="#profile-pane">Profile</a></li>
-                    <li class="nav-item"><a class="nav-link text-white" href="#my-events">My Events</a></li>
-                    <li class="nav-item"><a class="nav-link text-white" href="{{ url_for('auth.logout') }}">Log out</a>
-                    </li>
-                </ul>
+<div class="container mt-3">
+    <div class="row">
+        <div class="col-md-3 bg-primary text-white p-4 rounded-start-3">
+            <div class="text-center mb-4">
+                <i class="bi bi-person-circle" style="font-size: 3rem;"></i>
+                <h5 class="mt-3">{{ user.name or 'Unnamed User' }}</h5>
             </div>
+            <ul class="nav flex-column">
+                <li class="nav-item"><a class="nav-link text-white active" data-bs-toggle="tab" href="#profile">Profile</a></li>
+                <li class="nav-item"><a class="nav-link text-white" data-bs-toggle="tab" href="#my-events">My Events</a></li>
+                <li class="nav-item"><a class="nav-link text-white" href="{{ url_for('auth.logout') }}">Log out</a></li>
+            </ul>
+        </div>
 
-            <!--- Profile Information/Editor -->
-            <div class="col-md-9 bg-white p-4 rounded-end-3 tab-pane fade show active" id="profile-pane">
-                <section id="profile-info">
-                    <div class="d-flex justify-content-between align-items-center mb-3">
-                        <h4>Profile Information</h4>
-                        <button class="btn btn-outline-primary" data-bs-toggle="collapse" data-bs-target="#editProfile">
-                            Edit Profile
-                        </button>
-                    </div>
+            <!--- Profile Information -->
+            <div class="col-md-9 bg-white p-4 rounded-end-3">
+                <div class="tab-content">
+                    <div class="tab-pane fade show active" id="profile">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <h4>Profile Information</h4>
+                            <button class="btn btn-outline-primary btn-sm" data-bs-toggle="collapse" data-bs-target="#editProfile">
+                                Edit Profile
+                            </button>
+                            </div>
 
-                    <div>
+                    <div class="account-card">
                         <p><strong>First Name:</strong> {{ user.name.split(' ')[0] if user.name else '' }}</p>
-                        <p><strong>Last Name:</strong> {{ user.name.split(' ')[1] if user.name and ' ' in user.name else
-                            ''
-                            }}</p>
+                        <p><strong>Last Name:</strong> {{ user.name.split(' ')[1] if user.name and ' ' in user.name else '' }}</p>
                         <p><strong>Email Address:</strong> {{ user.emailid }}</p>
                         <p><strong>Phone Number:</strong> {{ user.phone or 'Not provided' }}</p>
                         <p><strong>Location:</strong> {{ user.address or 'Not provided' }}</p>
@@ -63,11 +59,9 @@
                             <button type="submit" class="btn btn-primary">Save Changes</button>
                         </form>
                     </div>
-                </section>
+                </div>
 
-                <hr class="my-5">
-
-                <section id="my-events">
+                <div class="tab-pane fade" id="my-events">
                     <div class="d-flex justify-content-between align-items-center mb-3">
                         <h4>My Events</h4>
                         <a href="{{ url_for('main.create_event') }}" class="btn btn-success">
@@ -105,9 +99,6 @@
                                             {% endif %}
                                         </td>
                                         <td>{{ e.tickets_av}}</td>
-                                        <td>
-                                            <!-- Actions to edit / view-->
-                                        </td>
                                     </tr>
                                     {% endfor %}
                                 </tbody>
@@ -120,11 +111,9 @@
                         <a href="{{ url_for('main.create_event')}}" class="alert-link">Create one now</a>
                     </div>
                     {% endif %}
-                </section>
-
+                </div>
             </div>
         </div>
     </div>
 </div>
-
 {% endblock %}

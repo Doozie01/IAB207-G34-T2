@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, url_for, request, session, redirect, flash, current_app
 from flask_login import login_required, current_user
-from .models import Event, Comment, Category
+from .models import Event, Comment, Category, Order
 from . import db
 from .forms import CreateEventForm
 from werkzeug.utils import secure_filename
@@ -60,7 +60,7 @@ def search():
         )
 
 
-@bp.route('/profle', methods=['GET','POST'])
+@bp.route('/profile', methods=['GET','POST'])
 @login_required
 def profile():
     if request.method =="POST":
@@ -140,5 +140,46 @@ def create_event():
 @bp.route('/bookings')
 @login_required
 def bookings():
-    return render_template('bookings.html', active_page="bookings")
+    now = datetime.now()
 
+    orders = (
+        Order.query
+        .join(Event)
+        .filter(Order.user_id == current_user.id)
+        .order_by(Order.created_at.desc())
+        .all()
+    )
+
+    upcoming_orders = [o for o in orders if o.event.start_at >= now]
+    past_orders = [o for o in orders if o.event.start_at < now]
+
+    return render_template('bookings.html', upcoming=upcoming_orders, past=past_orders, active_page="bookings")
+
+
+
+@bp.route('/confirm/<int:event_id>', methods=['GET','POST'])
+@login_required
+def confirm(event_id):
+    event = Event.query.get_or_404(event_id)
+    quantity = int(request.args.get('quantity', session.get('booking_quantity', 1)))
+    total = quantity * event.price
+
+    if request.method == 'POST':
+        order = Order(
+            user_id=current_user.id,
+            event_id=event.id,
+            quantity=quantity,
+            total_amount=total
+        )
+
+        if quantity > event.tickets_av:
+            flash("Not enough tickets available.", "danger")
+            return redirect(url_for('main.event_detail', event_id=event.id))
+
+        event.tickets_av -= quantity
+        db.session.add(order)
+        db.session.commit()
+        session.pop('booking_quantity', None)
+        return redirect(url_for('main.bookings'))
+
+    return render_template('confirm.html', event=event, quantity=quantity, total=total, active_page="confirm")

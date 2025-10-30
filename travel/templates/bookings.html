@@ -1,96 +1,88 @@
 {% extends 'base.html' %}
 {% block content %}
 
-<!------------------- MAIN PAGE CONTENT ------------------->
-
 <!-- Your Events -->
 <main class="exr-shell mb-4">
-  <h1 class="h4 mb-3">Your events</h1>
+  <h1 class="h4 mb-3">Your Events</h1>
 
-  <!-- List of created events -->
-  <div class="list-group">
-    <!-- Event 1 -->
-    <div class="list-group-item py-3">
-      <div class="d-flex align-items-center">
-        <img src="Static/HowToBootstrap.png"
-             alt="AI Risk Briefing cover" style="width:80px;height:56px;object-fit:cover;border-radius:8px" class="me-3">
-        <div class="me-auto">
-          <div class="fw-semibold">How to use Bootstrap for dynamic websites!</div>
-          <div class="text-secondary small">03/09/2025, 9:00 AM • QUT Gardens Point, Brisbane</div>
-        </div>
-        <a href="create-event.html" class="btn btn-primary">Edit</a>
-      </div>
-    </div>
+<ul class="nav nav-tabs mb-3" id="bookingTabs" role="tablist">
+    <li class="nav-item" role="presentation">
+      <button class="nav-link active" id="upcoming-tab" data-bs-toggle="tab"
+              data-bs-target="#UpcomingTickets" type="button" role="tab"
+              aria-controls="UpcomingTickets" aria-selected="true">
+        Upcoming
+      </button>
+    </li>
+    <li class="nav-item" role="presentation">
+      <button class="nav-link" id="past-tab" data-bs-toggle="tab"
+              data-bs-target="#PastTickets" type="button" role="tab"
+              aria-controls="PastTickets" aria-selected="false">
+        Past
+      </button>
+    </li>
+  </ul>
 
-    <!-- Event 2 -->
-    <div class="list-group-item py-3">
-      <div class="d-flex align-items-center">
-        <img src="Static/VideoEditing.jpg"
-             alt="Sustainability Reporting cover" style="width:80px;height:56px;object-fit:cover;border-radius:8px" class="me-3">
-        <div class="me-auto">
-          <div class="fw-semibold">Video Editing 101</div>
-          <div class="text-secondary small">09/09/2025, 1:00 PM • Online</div>
+  <div class="tab-content" id="bookingTabsContent">
+
+  <div class="tab-pane fade show active" id="UpcomingTickets" role="tabpanel">
+    <div class="row">
+      {% if upcoming %}
+      {% for order in upcoming %}
+      <div class="col-md-6">
+          <div class="card booking-card account-card" data-bs-toggle="collapse" data-bs-target="#OrderDetails{{ order.id }}">
+            <img src="{{ url_for('static', filename='uploads/' + order.event.image) }}" class="card-img-top">
+            <div class="card-body">
+              <h5>{{ order.event.title }}</h5>
+              <p class="text-muted">{{ order.event.category.name }}</p>
+              <div class="d-flex booking-info">
+                <span><i class="bi bi-calendar"></i> {{ order.event.start_at.strftime('%B %d, %Y') }}</span>
+                <span><i class="bi bi-ticket"></i> {{ order.quantity }} tickets</span>
+              </div>
+            </div>
+            <div class="collapse" id="OrderDetails{{ order.id }}">
+              <div class="card-body">
+                <p class="order-number">Order #{{ order.id }}</p>
+                <div class="event-info d-flex"><span>Venue:</span><span>{{ order.event.venue }}</span></div>
+                <div class="event-info d-flex"><span>Time:</span><span>{{ order.event.start_at.strftime('%I:%M %p') }}</span></div>
+                <div class="event-info d-flex"><span>Total:</span><span>A${{ '%.2f'|format(order.total_amount|float) }}</span></div>
+              </div>
+            </div>
+          </div>
         </div>
-        <a href="create-event.html" class="btn btn-primary">Edit</a>
-      </div>
+      {% endfor %}
+      {% else %}
+        <p class="text-muted text-center mt-3">No upcoming tickets.</p>
+      {% endif %}
     </div>
   </div>
 
-  <br>
-<!-- Your Bookings -->
-  <h1 class="h4 mb-3">Your bookings</h1>
-
-  <div class="table-responsive">
-    <table class="table align-middle">
-      <thead>
-        <tr>
-          <th scope="col">Event</th>
-          <th scope="col">Order ID</th>
-          <th scope="col">Booked at</th>
-          <th scope="col" class="text-end">Action</th>
-        </tr>
-      </thead>
-      <tbody>
-        <!-- Row 1 -->
-        <tr>
-          <td class="d-flex align-items-center gap-2">
-            <img src="Static/MicrobiologyFood.jpg"
-                 alt="Microbiology Food"
-                 style="width:80px;height:56px;object-fit:cover;border-radius:8px">
-            <div>
-              <div>Anti-microbial agents in Australia's Food Testing</div>
-              <div class="text-secondary small">05/09/2025, All Day • MNAQ QLD, Brisbane</div>
+  <div class="tab-pane fade" id="PastTickets" role="tabpanel">
+    <div class="row">
+      {% if past %}
+        {% for order in past %}
+        <div class="col-md-6">
+          <div class="card booking-card account-card">
+            <img src="{{ url_for('static', filename='uploads/' + order.event.image) }}" class="card-img-top">
+            <div class="card-body">
+              <h5>{{ order.event.title }}</h5>
+              <p class="text-muted">{{ order.event.category.name }}</p>
+              <div class="d-flex booking-info">Order #{{ order.id }}
+                <span><i class="bi bi-calendar"></i> {{ order.event.start_at.strftime('%B %d, %Y') }}</span>
+                <span><i class="bi bi-ticket"></i> {{ order.quantity }} tickets</span>
+              </div>
+              <div class="d-flex booking-info">
+                <span><i class="bi bi-cash"></i> A${{ '%.2f'|format(order.total_amount|float) }}</span>
+                <span><i class="bi bi-geo-alt"></i> {{ order.event.venue }}</span>
+              </div>
             </div>
-          </td>
-          <td><code>ORD-001234</code></td>
-          <td>02/09/2025, 2:15 PM</td>
-          <td class="text-end">
-            <a href="event.html" class="btn btn-primary me-2">See details</a>
-            <button type="button" class="btn btn-outline-danger">Cancel</button>
-          </td>
-        </tr>
-
-        <!-- Row 2 -->
-        <tr>
-          <td class="d-flex align-items-center gap-2">
-            <img src="Static/CostOfLiving.jpg"
-                 alt="Cost of Living"
-                 style="width:80px;height:56px;object-fit:cover;border-radius:8px">
-            <div>
-              <div>The cost of living crisis and young Aussies</div>
-              <div class="text-secondary small">14/09/2025, 9:00 AM • BCEC, Brisbane</div>
-            </div>
-          </td>
-          <td><code>ORD-001235</code></td>
-          <td>27/08/2025, 9:01 AM</td>
-          <td class="text-end">
-            <a href="event.html" class="btn btn-primary me-2">See details</a>
-            <button type="button" class="btn btn-outline-danger">Cancel</button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+          </div>
+        </div>
+        {% endfor %}
+      {% else %}
+        <p class="text-muted text-center mt-3">No past tickets.</p>
+      {% endif %}
+    </div>
   </div>
+</div>
 </main>
-
 {% endblock %}

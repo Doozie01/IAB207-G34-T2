@@ -14,7 +14,6 @@
     {% endif %}
 
     <p>{{ event.description }}</p>
-
     <hr>
 
     <h5>Comments</h5>
@@ -40,16 +39,16 @@
 
     <!-- Booking -->
     <h5>Book tickets</h5>
-    <form method="post" action="#">
+    <form method="get" action="{{ url_for('main.confirm', event_id=event.id) }}">
       <div class="row g-2 align-items-center">
         <div class="col-auto">
-          <input type="number" name="quantity" value="1" min="1" max="{{ event.tickets_av }}" class="form-control">
+          <input type="number" id="quantity" name="quantity" value="1" min="1" max="{{ event.tickets_av }}" class="form-control">
         </div>
         <div class="col-auto">
           <input type="text" readonly class="form-control-plaintext" value="Available: {{ event.tickets_av }}">
         </div>
         <div class="col-auto">
-          <input type="text" readonly class="form-control-plaintext" value="Price per ticket: {{ '%0.2f'|format(event.price|float) }} A$">
+          <input type="text" readonly class="form-control-plaintext" value="Price per ticket: A${{ '%.2f'|format(event.price|float) }}">
         </div>
         <div class="col-auto">
           <button type="submit" class="btn btn-primary">Book now</button>
