@@ -69,8 +69,9 @@
               </div>
               <div class="card-footer bg-white border-0">
                 <span class="badge bg-secondary">{{ e.status }}</span>
+                <span class="badge bg-secondary">{{ e.category.name }}</span>
                 {% if e.tickets_av and e.tickets_av>0 %}
-                <span class="badge bg-success ms-2">{{ e.tickets_av }} tickets</span>
+                <span class="badge bg-success">{{ e.tickets_av }} tickets</span>
                 {% endif %}
                 <span class="badge bg-secondary">{{ '%0.2f'|format(e.price|float) }} A$</span>
               </div>
