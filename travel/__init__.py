@@ -2,6 +2,7 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 from flask_bootstrap import Bootstrap5
+from datetime import datetime
 import os
 
 UPLOAD_FOLDER = os.path.join(os.path.abspath(os.path.dirname(__file__)), 'static', 'uploads')
@@ -107,5 +108,23 @@ def create_app():
 
         db.session.commit()
         print("Database seeded.")
+
+    @app.before_request
+    def sync_event_status():
+        from datetime import datetime
+        from .models import Event
+        
+        now = datetime.now()
+        to_update = Event.query.filter(
+            (Event.end_at < now) | (Event.tickets_av <= 0) | (Event.status == "Open")
+        ).all()
+        changed = False
+        for ev in to_update:
+            prev = ev.status
+            ev.persist_live_status()
+            if ev.status != prev:
+                changed = True
+        if changed:
+            db.session.commit()
 
     return app

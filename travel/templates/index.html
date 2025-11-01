@@ -4,7 +4,12 @@
 <!-- HERO -->
 <section class="exr-shell mb-4 text-center">
   <div class="hero-inner container">
-    <h1 class="h3 fw-bold mb-2">Welcome to ExpertRelay!</h1>
+    <h1 class="h3 fw-bold mb-2">{% if current_user.is_authenticated %}
+      <h1>Hi {{ current_user.name }}, welcome to Expert Relay!</h1>
+      {% else %}
+      <h1>Welcome to Expert Relay!</h1>
+      {% endif %}
+    </h1>
     <p class="lead mb-4">Find and create events, and connect with industry professionals</p>
 
     <form class="hero-search" action="{{ url_for('main.search') }}" method="get">
@@ -68,7 +73,17 @@
                 </p>
               </div>
               <div class="card-footer bg-white border-0">
-                <span class="badge bg-secondary">{{ e.status }}</span>
+                {% if e.live_status =="Open" %}
+                <span class="badge badge-open">{{ e.live_status }}</span>
+                {% elif e.live_status =="Sold Out" %}
+                <span class="badge badge-sold">{{ e.live_status }}</span>
+                {% elif e.live_status =="Inactive" %}
+                <span class="badge badge-inactive">{{ e.live_status }}</span>
+                {% elif e.live_status =="Cancelled" %}
+                <span class="badge badge-cancel">{{ e.live_status }}</span>
+                {% else %}
+                <span class="badge bg-secondary">{{ e.live_status }}</span>
+                {% endif %}
                 <span class="badge bg-secondary">{{ e.category.name }}</span>
                 {% if e.tickets_av and e.tickets_av>0 %}
                 <span class="badge bg-success">{{ e.tickets_av }} tickets</span>

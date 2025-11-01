@@ -4,13 +4,14 @@
   <div class="card shadow-sm p-4">
     <h2>{{ event.title }}</h2>
     <p class="text-muted mb-1">{{ event.category.name }} • {{ event.status }}</p>
-    <p><strong>Date:</strong> {{ event.start_at.strftime('%d/%m/%Y, %I:%M %p') }} – {{ event.end_at.strftime('%I:%M %p') }}</p>
+    <p><strong>Date:</strong> {{ event.start_at.strftime('%d/%m/%Y, %I:%M %p') }} – {{ event.end_at.strftime('%d/%m/%Y,
+      %I:%M %p')
+      }}</p>
     <p><strong>Venue:</strong> {{ event.venue }}</p>
 
     {% if event.image %}
-    <img src="{{ url_for('static', filename='uploads/' + event.image) }}"
-         class="img-fluid rounded my-3"
-         style="max-height: 300px; object-fit: cover;">
+    <img src="{{ url_for('static', filename='uploads/' + event.image) }}" class="img-fluid rounded my-3"
+      style="max-height: 300px; object-fit: cover;">
     {% endif %}
 
     <p>{{ event.description }}</p>
@@ -19,22 +20,22 @@
     <h5>Comments</h5>
 
     {% if current_user.is_authenticated %}
-      <form method="post" class="mb-3" action="{{ url_for('main.event_detail', event_id=event.id) }}">
-        <textarea class="form-control" name="comment" placeholder="Add a comment..." required></textarea>
-        <button class="btn btn-primary mt-2">Comment</button>
-      </form>
+    <form method="post" class="mb-3" action="{{ url_for('main.event_detail', event_id=event.id) }}">
+      <textarea class="form-control" name="comment" placeholder="Add a comment..." required></textarea>
+      <button class="btn btn-primary mt-2">Comment</button>
+    </form>
     {% else %}
-      <p><a href="{{ url_for('auth.login') }}">Log in to comment.</a></p>
+    <p><a href="{{ url_for('auth.login') }}">Log in to comment.</a></p>
     {% endif %}
 
     {% for c in comments %}
-      <div class="border rounded p-2 my-2">
-        <strong>{{ c.user.first_name or 'User'}}</strong>
-        <small class="text-muted">{{ c.posted_at.strftime('%d/%m/%Y, %I:%M %p') }}</small>
-        <p>{{ c.text }}</p>
-      </div>
+    <div class="border rounded p-2 my-2">
+      <strong>{{ c.user.name or 'User'}}</strong>
+      <small class="text-muted">{{ c.posted_at.strftime('%d/%m/%Y, %I:%M %p') }}</small>
+      <p>{{ c.text }}</p>
+    </div>
     {% else %}
-      <p class="text-muted">No comments yet.</p>
+    <p class="text-muted">No comments yet.</p>
     {% endfor %}
 
     <!-- Booking -->
@@ -42,13 +43,15 @@
     <form method="get" action="{{ url_for('main.confirm', event_id=event.id) }}">
       <div class="row g-2 align-items-center">
         <div class="col-auto">
-          <input type="number" id="quantity" name="quantity" value="1" min="1" max="{{ event.tickets_av }}" class="form-control">
+          <input type="number" id="quantity" name="quantity" value="1" min="1" max="{{ event.tickets_av }}"
+            class="form-control">
         </div>
         <div class="col-auto">
           <input type="text" readonly class="form-control-plaintext" value="Available: {{ event.tickets_av }}">
         </div>
         <div class="col-auto">
-          <input type="text" readonly class="form-control-plaintext" value="Price per ticket: A${{ '%.2f'|format(event.price|float) }}">
+          <input type="text" readonly class="form-control-plaintext"
+            value="Price per ticket: A${{ '%.2f'|format(event.price|float) }}">
         </div>
         <div class="col-auto">
           <button type="submit" class="btn btn-primary">Book now</button>

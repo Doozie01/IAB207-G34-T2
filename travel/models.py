@@ -50,6 +50,20 @@ class Event(db.Model):
 
     def __repr__(self):
         return f"Event title: {self.title}"
+    
+    @property
+    def live_status(self):
+        s = (self.status or "").strip().lower()
+        if s == "cancelled":
+            return "Cancelled"
+        if self.end_at and self.end_at < datetime.now():
+            return "Inactive"
+        if self.tickets_av is not None and self.tickets_av <= 0:
+            return "Sold Out"
+        return "Open"
+    
+    def persist_live_status(self):
+        self.status = self.live_status
 
 
 class Comment(db.Model):

@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, url_for, request, session, redirect, flash, current_app
+from flask import Blueprint, render_template, url_for, request, session, redirect, flash, current_app, abort
 from flask_login import login_required, current_user
 from .models import Event, Comment, Category, Order
 from . import db
@@ -14,16 +14,21 @@ bp = Blueprint('main', __name__)
 def index():
     cat_id = request.args.get("cat", type=int)
     categories  = Category.query.order_by(Category.name).all()
-    events=Event.query.all()
+    events=(
+        Event.query.filter(
+            Event.live_status == "Open",
+            Event.start_at >= datetime.now()
+        )
+        .order_by(Event.start_at.asc())
+        .all()
+    )
     if cat_id:
         events = Event.query.filter_by(category_id=cat_id).order_by(Event.start_at).all()
         active_category = Category.query.get(cat_id)
     else:
-        events = Event.query.order_by(Event.start_at).all()
+        events = Event.query.order_by(Event.status).all()
         active_category=None
     return render_template('index.html', categories=categories, events=events, active_category=active_category, active_page="index")
-
-
 
 @bp.route('/search')
 def search():
@@ -49,15 +54,7 @@ def search():
     categories = Category.query.order_by(Category.name.asc()).all()
     active_category = Category.query.get(cat_id) if cat_id else None
 
-    return render_template(
-        'search.html',
-        q=qtext,
-        events=events,
-        categories=categories,
-        active_category=active_category,
-        results_count=len(events),
-        active_page="search"
-        )
+    return render_template('search.html', q=qtext, events=events, categories=categories, active_category=active_category, results_count=len(events), active_page="search")
 
 
 @bp.route('/profile', methods=['GET','POST'])
@@ -115,7 +112,7 @@ def create_event():
             image_file.save(upload_path)
 
         # --- Create event record ---
-        ev = Event(
+        e = Event(
             title=form.title.data,
             description=form.description.data,
             image=filename,  # store filename only
@@ -128,8 +125,10 @@ def create_event():
             user_id=current_user.id,
             category_id=form.category_id.data
         )
-
-        db.session.add(ev)
+        
+        db.session.add(e)
+        e.status = e.live_status
+        e.persist_live_status()
         db.session.commit()
 
         flash("Event created successfully!", "success")
@@ -155,8 +154,6 @@ def bookings():
 
     return render_template('bookings.html', upcoming=upcoming_orders, past=past_orders, active_page="bookings")
 
-
-
 @bp.route('/confirm/<int:event_id>', methods=['GET','POST'])
 @login_required
 def confirm(event_id):
@@ -178,8 +175,58 @@ def confirm(event_id):
 
         event.tickets_av -= quantity
         db.session.add(order)
+        event.persist_live_status()
         db.session.commit()
         session.pop('booking_quantity', None)
-        return redirect(url_for('main.bookings'))
 
+        if event.status != "Open":
+            flash("This event is not open for booking.","Warning")
+            return redirect(url_for("main.bookings", event_id=event.id))
+        
+        if not event.tickets_av or event.tickets_av <= 0:
+            flash("Sold out.", "Warning")
+            return redirect(url_for("main.bookings", event_id=event.id))
+        
+        return redirect(url_for('main.bookings'))
     return render_template('confirm.html', event=event, quantity=quantity, total=total, active_page="confirm")
+
+
+
+@bp.route('/event/<int:event_id>/edit', methods=['GET','POST'])
+@login_required
+def edit_event(event_id):
+    event = Event.query.get_or_404(event_id)
+    if event.user_id != current_user.id:
+        abort(403)
+    form = CreateEventForm(obj=event)
+    form.set_category_choices()
+
+    if form.validate_on_submit():
+        image_file = form.image.data
+        if hasattr(image_file, "filename") and image_file.filename:
+            filename = secure_filename(image_file.filename)
+            upload_path = os.path.join(current_app.config['UPLOAD_FOLDER'], filename)
+            image_file.save(upload_path)
+            event.image = filename
+
+        # --- Update existing event ---
+        event.title = form.title.data
+        event.description = form.description.data
+        event.start_at = form.start_at.data
+        event.end_at = form.end_at.data
+        event.venue = form.venue.data
+        event.price = form.price.data
+        event.status = form.status.data
+        event.tickets_av = form.tickets_av.data or 0
+        event.category_id = form.category_id.data
+
+        event.status = event.live_status
+        event.persist_live_status()
+        db.session.commit()
+
+        
+
+        flash("Saved successfully!", "success")
+        return redirect(url_for("main.event_detail", event_id=event.id))
+
+    return render_template("edit-event.html", event=event, form=form, active_page="edit-event")

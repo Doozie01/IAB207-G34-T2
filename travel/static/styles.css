@@ -75,7 +75,7 @@ area on the screen.
 
 /* Changed status badge colours for Open, Sold Out, Inactive etc... */
 .badge-open {
-  background: #0ea5e9
+  background: #3e8d4c
 }
 
 .badge-sold {
@@ -83,12 +83,12 @@ area on the screen.
 }
 
 .badge-inactive {
-  background: #9ca3af;
+  background: #c1c4c9;
   color: #111
 }
 
 .badge-cancel {
-  background: #FFFF00;
+  background: #ffd900;
   color: #111
 }
 
@@ -119,10 +119,6 @@ area on the screen.
 .btn-success:focus {
   background-color: #244d2c;
   border-color: #244d2c;
-}
-
-.badge-open {
-  background-color: #10b12e;
 }
 
 .exr-nav {
@@ -269,85 +265,100 @@ area on the screen.
 }
 
 .confirm-container {
-    max-width: 800px;
-    margin: 50px auto;
-    padding: 30px;
-    background-color: white;
-    border-radius: 10px;
-    box-shadow: 0 0 20px rgba(0,0,0,0.1);
+  max-width: 800px;
+  margin: 50px auto;
+  padding: 30px;
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
 }
+
 .confirm-header {
-    text-align: center;
-    margin-bottom: 1.5rem;
+  text-align: center;
+  margin-bottom: 1.5rem;
 }
+
 .confirm-card {
-    border-left: 4px solid green;
-    margin-bottom: 20px;
+  border-left: 4px solid green;
+  margin-bottom: 20px;
 }
+
 .confirm-description-card {
-    border: 1px solid lightgray;
-    border-radius: 10px;
-    padding: 15px;
-    margin-bottom: 20px;
+  border: 1px solid lightgray;
+  border-radius: 10px;
+  padding: 15px;
+  margin-bottom: 20px;
 }
+
 .payment-logo {
-    width: 40px;
-    height: 40px;
-    background-color: lightgray;
-    border-radius: 4px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 20px;
-    margin-right: 1rem;
+  width: 40px;
+  height: 40px;
+  background-color: lightgray;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  margin-right: 1rem;
 }
+
 .order-summary {
-    margin-bottom: 1rem;
+  margin-bottom: 1rem;
 }
+
 .order-item {
-    display: flex;
-    justify-content: space-between;
-    padding: 10px 0;
-    border-bottom: 1px solid lightgray;
-    margin-bottom: 0.5rem;
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 0;
+  border-bottom: 1px solid lightgray;
+  margin-bottom: 0.5rem;
 }
+
 .order-total {
-    display: flex;
-    font-weight: bold;
-    font-size: 1.5rem;
-    justify-content: space-between;
+  display: flex;
+  font-weight: bold;
+  font-size: 1.5rem;
+  justify-content: space-between;
 }
+
 .booking-card {
-    transition: transform 0.3s;
-    border: none;
-    box-shadow: 0 0 10px rgba(0,0,0,0.1);
-    margin-bottom: 20px;
+  transition: transform 0.3s;
+  border: none;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
 }
+
 .booking-info {
-    justify-content: space-between;
-    margin-bottom: 1rem;
+  justify-content: space-between;
+  margin-bottom: 1rem;
 }
+
 .booking-card:hover {
-    transform: translateY(-5px);
+  transform: translateY(-5px);
 }
+
 .booking-card .card-img-top {
-    height: 150px;
-    object-fit: cover;
+  height: 150px;
+  object-fit: cover;
 }
+
 .nav-tabs {
-    margin-bottom: 2rem;
+  margin-bottom: 2rem;
 }
+
 .order-number {
-    text-align: center;
+  text-align: center;
 }
+
 .event-info {
-    justify-content: space-between;
-    margin-bottom: 1rem;
+  justify-content: space-between;
+  margin-bottom: 1rem;
 }
+
 .account-card {
-    border: none;
-    box-shadow: 0 0 10px rgba(0,0,0,0.1);
-    margin-bottom: 20px;
-    padding: 20px;
-    border-radius: 10px;
+  border: none;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+  padding: 20px;
+  border-radius: 10px;
 }
